@@ -24,22 +24,34 @@
         </div>
       </div>
       <div id="toolbar">
-        <h2>Choose economic bonuses</h2>
-        <div id="econ-civ-bonus">
-          <select id="econ-civ-select" name="civ bonuses">
-            {% for name, value in ecoBonuses.civ %}
-              <option value="{{name}}" data-json="{{value | dump}}">{{name}}</option>
-            {% endfor %}
-          </select>
-          <div>
-            {% for name, value in ecoBonuses.team %}
-              <div>
+        <div class="toolbar-row">
+          <div id="econ-civ-bonus">
+            <h2>Choose economic bonuses</h2>
+            <select id="econ-civ-select" name="civ bonuses">
+              {% for name, value in ecoBonuses.civ %}
+                <option value="{{name}}" data-json="{{value | dump}}">{{name}}</option>
+              {% endfor %}
+            </select>
+            <div>
+              {% for name, value in ecoBonuses.team %}
                 <div>
-                  {{ name }}
+                  <div>
+                    {{ name }}
+                  </div>
+                  <input type="checkbox" x-upgrade-resources="civilization" data-json="{{value | dump}}" name="{{name}}" />
                 </div>
-                <input type="checkbox" x-upgrade-resources="civilization" data-json="{{value | dump}}" name="{{name}}" />
-              </div>
-            {% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+          <div id="civ-type-dropdown">
+            <h2>Choose civilisation</h2>
+            <select id="civ-type-select" name="civ">
+              <option value="armenians">Armenians</option>
+              <option value="aztecs">Aztecs</option>
+              <option value="bengalis">Bengalis</option>
+              <option value="berbers">Berbers</option>
+              <!-- Add more civ types as needed -->
+            </select>
           </div>
         </div>
         <h2>Click to toggle resource display</h2>

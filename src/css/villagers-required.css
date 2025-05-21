@@ -14,15 +14,16 @@
     padding: 10px;
 }
 
-#econ-civ-bonus > div {
-    padding: 5px;
-    display: flex;
+.toolbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
 }
-#econ-civ-bonus > div > div{
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+#econ-civ-bonus, #civ-type-dropdown {
+  flex: 1 1 0;
+  min-width: 250px;
 }
 
 #choose-units, #choose-res{
