@@ -8,11 +8,7 @@ permalink: /villagers-required/list-ui/index.html
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AOE2: DE</title>
 <script>
-/* Fonts, embedded so the page makes no requests (user, 2026-10-01): Alegreya Bold and Alegreya Sans Regular / Medium / Bold,
-   the Latin subset Google Fonts serves (every character the page uses that they have). They're handed to the browser as
-   FontFace data, not @font-face url(data:…), which DevTools' Network panel would list as four requests (user: page and
-   favicon only).
-   Alegreya: Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya).
+/* Alegreya: Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya).
    Alegreya Sans: Copyright 2013 The Alegreya Sans Project Authors (https://github.com/huertatipografica/Alegreya-Sans).
    Both under the SIL Open Font License 1.1 (https://openfontlicense.org). */
 [
@@ -23,7 +19,7 @@ permalink: /villagers-required/list-ui/index.html
 ].forEach(([family, weight, b64]) => {
   const bin = atob(b64), bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  document.fonts.add(new FontFace(family, bytes, { weight, style: "normal", display: "block" }));   // loads at once
+  document.fonts.add(new FontFace(family, bytes, { weight, style: "normal", display: "block" }));
 });
 </script>
 <style>
@@ -38,13 +34,11 @@ permalink: /villagers-required/list-ui/index.html
   --food: #b13f2d;
   --gold: #9a7409;
   --stone: #5a6875;
-  --good: #2f7a3c;   /* green: Idle TC Time at 00:00 */
+  --good: #2f7a3c;
   --tint: 7%;
   --tint-strong: 15%;
 
   --w-count: 7rem;
-  /* The four resource columns share one width: room for the longest income source (once "Gurjara Livestock (large)")
-     and a little more, so the resource block sits nearer the middle of the page */
   --w-res: 12rem;
   --w-wood: var(--w-res);
   --w-food: var(--w-res);
@@ -103,8 +97,6 @@ body {
   overflow: hidden;
   background: var(--bg);
   color: var(--ink);
-  /* Alegreya Sans is embedded; the rest only draws what it lacks (✓, →). No "Gill Sans": Firefox blocks it as a
-     fingerprinting risk and logs a warning for every lookup. */
   font: 15px/1.35 "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
   font-variant-numeric: lining-nums tabular-nums;
   -webkit-text-size-adjust: 100%;
@@ -116,18 +108,14 @@ body {
 
 body {
   display: flex; flex-direction: column;
-  /* Same backdrop as the Tile UI (css/style.css) */
   background-image: url("/img/background.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 105% 105%;
   background-position: center;
 }
-/* Same text as the Tile UI's footer: browser default serif, black */
-/* Text that sits straight on the background image is black, in light and dark mode alike */
 .civpick > label, .civpick > label .ally-count, .civbar, .civbar #civ-fx { color: #000; }
 .credit { flex: none; padding: 5px; text-align: center; font: 16px "Times New Roman", serif; color: #000; }
-/* Top bar shared with the Tile UI (villagers-required page), copied from css/style.css */
 .navbar { flex: none; background-color: rgba(255, 255, 255, 0.65); box-shadow: 5px 5px 15px 5px #444; color: #000; font: 16px "Times New Roman", serif; }
 .navbar-wrapper { display: flex; margin: auto; max-width: 1400px; }
 .navbar-wrapper > .nav-title { flex: 1; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 1.2em; margin: auto; }
@@ -150,7 +138,6 @@ body {
   gap: .55rem;
 }
 
-/* Title bar */
 .top { display: flex; align-items: center; gap: .6rem 1.2rem; }
 .top h1 {
   margin: 0;
@@ -163,7 +150,6 @@ body {
   letter-spacing: -.01em;
 }
 .pickers { display: flex; align-items: center; justify-content: flex-end; gap: .5rem 1.3rem; }
-/* View tabs: Villagers Required / Transition Eco */
 .tabs { flex: none; display: flex; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
 .tab {
   margin: 0; padding: .38rem .8rem;
@@ -174,9 +160,6 @@ body {
 .tab:hover { color: var(--ink); }
 .tab[aria-selected="true"] { color: var(--focus); background: color-mix(in srgb, var(--focus) 14%, var(--surface)); cursor: default; }
 .tab:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
-/* Header arrangements, picked by fitHeader() as the first that fits on its lines:
-   (none) everything on one line, labels beside the pickers; b: labels above the pickers;
-   c: the pickers get their own line; d: the tabs get their own line too */
 html.hdr-b .civpick { flex-direction: column; align-items: stretch; gap: .1rem; }
 html.hdr-b .civpick label { font-size: .8rem; }
 html.hdr-b .civpick .combo { width: 12rem; }
@@ -187,14 +170,11 @@ html.hdr-c .civpick .combo { width: auto; }
 html.hdr-d .tabs { order: 2; flex-basis: 100%; }
 html.hdr-d .tab { flex: 1 1 0; }
 html.hdr-d .pickers { order: 3; }
-/* While measuring, items keep their natural width and wrap instead of squeezing */
 html.hdr-measure .top { flex-wrap: wrap; }
 html.hdr-measure .top > * { flex-shrink: 0; }
 html.hdr-measure .top h1 { white-space: nowrap; }
 html.hdr-measure .clear-slot { flex: 0 0 auto; }
-/* The Clear button sits centred in the space between the title and the pickers. */
 .clear-slot { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; gap: .5rem; }
-/* Hidden buttons keep their space so nothing around them jumps. */
 .pagebtn[hidden] { display: inline-block; visibility: hidden; }
 .pagebtn {
   flex: none;
@@ -211,7 +191,7 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
 .pagebtn.accent:hover { background: color-mix(in srgb, var(--focus) 10%, var(--surface)); border-color: var(--focus); }
 .postimp-cell { grid-column: -2 / -1; padding: .6rem .75rem; border-left: 1px solid var(--rule);
   display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
-  margin-bottom: -1px; background: var(--surface); }   /* covers the settings row's bottom line: one cell with the Technologies below */
+  margin-bottom: -1px; background: var(--surface); }
 .clear-techs { font-size: .8rem; padding: .25rem .65rem; }
 .clear-techs-alt, .clear-techs-alt[hidden] { display: none; }
 .postimp-opt { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; font-size: .95rem; cursor: pointer; }
@@ -252,12 +232,10 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
 .meta .mod { text-decoration: underline dotted; text-underline-offset: 2px; }
 .meta .na { color: var(--food); font-style: italic; }
 .sheet tr.na .uname { color: var(--food); font-style: italic; }
-/* # Buildings 0: name, cost and time grey out, like the row's zero cells, and so does the Farm's "25s" box (still usable) */
 .sheet tr.idle:not(.na) .uname, .sheet tr.idle:not(.na) .meta-row, .sheet tr.idle:not(.na) .meta-row b,
 .sheet tr.idle:not(.na) .row-opts .opt { color: color-mix(in srgb, var(--muted) 55%, transparent); }
 .sheet tr.idle:not(.na) .row-opts input { opacity: .45; }
 
-/* The sheet: controls row + table share one column grid, so each resource runs as a lane */
 .board {
   flex: 1;
   min-height: 0;
@@ -282,15 +260,13 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
   gap: .25rem;
   min-width: 0;
 }
-/* Checkboxes sit on their own line under the heading, always in the same place */
 .adder-head { display: flex; flex-direction: column; align-items: flex-start; gap: .25rem; }
 .adder-title { font-weight: 700; font-size: .95rem; }
 .adder-opts { display: inline-flex; gap: .3rem .5rem; flex-wrap: wrap; }
 .dockopt { display: inline-flex; align-items: center; gap: .25rem; font-size: .8rem; cursor: pointer; white-space: nowrap; }
 .dockopt input { margin: 0; width: .95rem; height: .95rem; accent-color: var(--focus); cursor: pointer; }
 .dockopt input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-.dockopt[hidden] { visibility: hidden; }   /* keeps its space: nothing shifts when it hides */
-/* Full Tech Tree (a civ) and Include Regional & Unique (Generic) share one spot, as wide as the longer label */
+.dockopt[hidden] { visibility: hidden; }
 .opt-slot { display: inline-grid; }
 .opt-slot > .dockopt { grid-area: 1 / 1; }
 .combo { position: relative; }
@@ -305,7 +281,6 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
   padding: .5rem 2rem .5rem .65rem;
 }
 .combo input::placeholder { color: var(--muted); }
-/* The arrow is a button over the box's right end: it opens a closed list and closes an open one, and points up while open */
 .combo-toggle {
   position: absolute; top: 0; right: 0; bottom: 0; width: 2rem;
   margin: 0; padding: 0; border: 0; background: none; cursor: pointer;
@@ -322,11 +297,9 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
 .combo-toggle:hover::before { border-color: var(--ink); }
 .combo input[aria-expanded="true"] ~ .combo-toggle::before { transform: translateY(-25%) rotate(-135deg); }
 .combo input:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; border-color: transparent; }
-.adder-foot { display: flex; justify-content: space-between; align-items: center; gap: .6rem; min-height: 1.3em; font-size: .85rem; }   /* keeps its height: Clear table comes and goes without moving anything */
-.adder-foot .adder-opts { margin-right: auto; }   /* Farm Reseeding / House Building on the left, Clear table on the right */
-.adder-foot .linkbtn[hidden] { display: inline-block; visibility: hidden; }   /* keeps its space, so the checkboxes don't move */
-/* Saxons (not Full Tech Tree): Town Centers and Castles held, 0–4 (user: under Clear table, above the # Buildings column), at the
-   adder's bottom right, in the room the adder has spare in the wide layout */
+.adder-foot { display: flex; justify-content: space-between; align-items: center; gap: .6rem; min-height: 1.3em; font-size: .85rem; }
+.adder-foot .adder-opts { margin-right: auto; }
+.adder-foot .linkbtn[hidden] { display: inline-block; visibility: hidden; }
 .adder-tc { display: flex; align-items: center; gap: .3rem; align-self: flex-end; margin-top: auto; font-size: .85rem; white-space: nowrap; }
 .adder-tc .stepper { --sh: 1.2rem; }
 .adder-tc .stepper input { width: 1.4em; padding: 0; }
@@ -338,7 +311,6 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
 .linkbtn:hover { color: var(--ink); }
 .linkbtn[hidden] { display: none; }
 
-/* Dropdown list */
 .list {
   position: absolute;
   z-index: 20;
@@ -381,8 +353,6 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
 .list .none { padding: .6rem .75rem; color: var(--muted); }
 
 .meta { font-size: .8em; color: var(--muted); white-space: nowrap; }
-/* Custom unit: its costs and training time as small number fields on a second line under the name (the name's line is too
-   short for them at every width); the name's line shows the cost after bonuses, when any apply */
 .cu-fields { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1em .35em; margin-top: .15em; font-size: .75em; color: var(--muted); }
 .cu-f { display: inline-flex; align-items: baseline; gap: .12em; font-weight: 500; cursor: text; }
 .cu-fields .t-wood { color: var(--wood); }
@@ -396,7 +366,7 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
 }
 .cu-in::-webkit-inner-spin-button, .cu-in::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .cu-in:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
-.cu-eff { white-space: normal; }   /* the cost after bonuses may wrap in a narrow Unit column */
+.cu-eff { white-space: normal; }
 
 .meta b { font-weight: 500; }
 .meta .t-wood { color: var(--wood); }
@@ -404,7 +374,6 @@ html.hdr-measure .clear-slot { flex: 0 0 auto; }
 .meta .t-gold { color: var(--gold); }
 .meta .t-stone { color: var(--stone); }
 
-/* Resource settings */
 fieldset.res {
   margin: 0;
   padding: .55rem .7rem .6rem;
@@ -421,7 +390,6 @@ fieldset.res legend + * { clear: both; }
 .lg strong { color: var(--res); font-size: 1.02rem; }
 .rate { color: var(--muted); font-size: .85rem; white-space: nowrap; }
 .rate b { color: var(--ink); font-weight: 500; }
-/* A custom income: its rate is typed in the heading (0.1–999.9 per villager per minute), the field no taller than the text */
 .rate-in {
   width: 3.4em; height: 1.2em; font: inherit; font-weight: 500; line-height: 1; color: var(--ink); background: var(--surface);
   border: 1px solid color-mix(in srgb, var(--res) 45%, var(--rule)); border-radius: 3px; padding: 0 .15em; text-align: right;
@@ -441,29 +409,19 @@ fieldset.res legend + * { clear: both; }
 .opt input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .food-grid { display: grid; grid-template-columns: auto auto; column-gap: .9rem; justify-content: start; }
 .food .opt { white-space: nowrap; }
-/* An upgrade the chosen source doesn't use is hidden but keeps its space (tick kept), so switching source or civ moves nothing */
 #food-ups .opt[hidden], #gold-ups .opt[hidden] { visibility: hidden; }
 .ups[hidden] { display: block; visibility: hidden; }
-/* Heavy Plow / Fishing Lines and Wheelbarrow / Gillnets share a spot (the Fishing Ship source swaps them), sized for the larger;
-   so do Gold Mining / Caravan and Gold Shaft Mining / Bump factor (Trade Carts) / Clinker Construction (Trade Cogs). Gold keeps a
-   third line for Carvel Hull (Trade Cogs) for everyone (user), so picking Trade Cogs moves nothing. Whaling: Fishing Lines and
-   Gillnets in the mining techs' places (the same ticks as the Food box's) */
 .opt-stack { display: grid; }
 .opt-stack > .opt { grid-area: 1 / 1; }
-/* Fishing Ship: where it fishes, right of the upgrades; hidden for other sources but keeps its space */
 .food-row { display: flex; align-items: flex-start; gap: .7rem; }
 .food-row > * { flex: none; }
 .fish-spot[hidden] { display: block; visibility: hidden; }
-/* With Fishing Ship, the swapped-out Heavy Plow and Wheelbarrow stop reserving their width, leaving the radios room */
 html:not(.fish-dd) #food-ups.ship .opt-stack > .opt[hidden] { display: none; }
-/* No room for the radios (phones, narrow windows; measured by fitFish()): the Food dropdown lists the ship once per spot instead */
 html.fish-dd .food-row { display: block; }
 html.fish-dd .fish-spot { display: none; }
 html.narrow .wide-only { display: none; }
-/* A column heading's own name (# Lumberjacks …) or, where that doesn't fit (th.plain, fitHeads()), the plain one (# Wood vils) */
 .sheet thead .hs, .sheet thead th.plain .hl { display: none; }
 .sheet thead th.plain .hs { display: inline; }
-/* Income source: a plain dropdown under each resource heading (few options, no search needed); farm upgrades sit under Food's */
 .src-sel {
   display: block; width: 100%; max-width: 100%; margin: .05rem 0 .3rem; clear: both;
   font: inherit; font-size: .88em; line-height: 1.2; color: var(--ink); background: var(--surface);
@@ -471,53 +429,36 @@ html.narrow .wide-only { display: none; }
   padding: .12rem .25rem; cursor: pointer; text-overflow: ellipsis;
 }
 .src-sel:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
-/* Relics: a count under the gold upgrades, sized to fit the line Gold has spare (Food's box sets the height) */
 #relics, #soldiers, #garrison { display: flex; align-items: center; gap: .3rem; white-space: nowrap; }
 #relics .stepper, #soldiers .stepper, #garrison .stepper { --sh: 1.2rem; font-size: .85rem; }
 #relics .stepper input { width: 1.7em; padding: 0; }
-#soldiers .stepper input { width: 2.4em; padding: 0; }   /* up to 999 */
+#soldiers .stepper input { width: 2.4em; padding: 0; }
 #relics .relic-out, #soldiers .relic-out, #garrison .relic-out { color: var(--muted); font-size: .8rem; }
-#relics.na { opacity: .42; }   /* before Castle Age */
-/* Wei soldiers (Food box, under the upgrades): a count like Relics while Tuntian is in effect; the row exists only for Wei (.gone
-   otherwise) and keeps its space while Tuntian is off, so ticking it moves nothing */
+#relics.na { opacity: .42; }
 #soldiers[hidden] { visibility: hidden; }
 #soldiers.gone { display: none; }
-/* Gurjaras' Garrisoned Food Amount (Food box, user): a count like Relics, 0–9999 in steps of 100; the row exists only for Gurjaras
-   (.gone otherwise). It wraps like Soldiers, so its height depends on the box, not the number */
 #garrison { flex-wrap: wrap; row-gap: 0; white-space: normal; }
-#garrison .stepper input { width: 3em; padding: 0; }   /* up to 9999 */
+#garrison .stepper input { width: 3em; padding: 0; }
 #garrison .relic-out { min-width: 4.1em; }
 #garrison.gone { display: none; }
-/* The food per minute is as wide as its largest value ("1798f/min"), so whether it wraps under the count depends on the box, never
-   on the number */
 #soldiers { flex-wrap: wrap; row-gap: 0; }
-#soldiers .relic-out { min-width: 4.1em; }   /* "1798f/min" measures 4.05em */
-/* Gathering that brings in another resource too: Portuguese foragers' wood (Wood box, under the upgrades), Shu lumberjacks'
-   food and Burgundian relics' food (Food box, under the upgrades; a Burgundian ally's too), and Varangian shepherds', hunters' and fishers' gold, Polish stone miners' gold,
-   Vietnamese lumberjacks' gold with Paper Money or Burgundian farmers' gold with Burgundian Vineyards (Gold box, under Relics; only one, each being one civ's). A line exists only for a civ with the bonus (.gone otherwise)
-   and keeps its space for other food sources, so switching food source moves nothing */
+#soldiers .relic-out { min-width: 4.1em; }
 .extra-inc { color: var(--muted); font-size: .85rem; font-style: italic; line-height: 1.25; padding: .08rem 0; text-align: center; white-space: nowrap; }
-/* Where the longest text a line can show doesn't fit on one line, "from …" takes a second line (html.inc-2l), in smaller type
-   if even that is too wide (html.inc-small), and the name a third line of its own if still too wide (html.inc-3l). fitIncome()
-   decides by that longest text, so the height never follows the numbers or the source */
 html.inc-2l .extra-inc .inc-from, html.inc-3l .extra-inc .inc-who { display: block; }
 html.inc-small .extra-inc { font-size: .7rem; }
 .extra-inc[hidden] { display: block; visibility: hidden; }
 .extra-inc.gone { display: none; }
 html.narrow #relics, html.narrow #soldiers, html.narrow #garrison { flex-wrap: wrap; gap: .1rem .25rem; }
 html.narrow #relics .stepper, html.narrow #soldiers .stepper, html.narrow #garrison .stepper { --sh: 1.05rem; font-size: .75rem; }
-html.tab-te #relics, html.tab-te #soldiers, html.tab-te #garrison { visibility: hidden; }   /* relics, soldiers and garrisoned food don't count in Transition Eco */
+html.tab-te #relics, html.tab-te #soldiers, html.tab-te #garrison { visibility: hidden; }
 .opt.na { opacity: .42; cursor: default; }
 .opt.na input { cursor: default; }
-.opt.fixed, .opt.fixed input { cursor: default; }   /* a free tech (Bohemians' mining techs): ticked, can't be unticked */
-/* Georgians (html.church): "Near Fortified Church" at the bottom of each resource box, level across the four (the boxes become
-   columns so it can sit at the bottom); hidden but kept for a source that isn't villagers. Absent for every other civ. */
+.opt.fixed, .opt.fixed input { cursor: default; }
 .church-opt { display: none; }
 html.church fieldset.res { display: flex; flex-direction: column; }
 html.church .church-opt { display: flex; margin-top: auto; white-space: normal; }
 html.church .church-opt[hidden] { visibility: hidden; }
 
-/* Table */
 .sheet-wrap { position: relative; flex: 1; min-height: 0; overflow: hidden; }
 .lane-bg {
   position: absolute; inset: 0;
@@ -538,7 +479,6 @@ table.sheet {
 }
 col.c-count { width: var(--w-count); }
 col.c-bld { width: var(--w-bld); }
-/* # Builders: a column as wide as # Buildings, collapsed to nothing while hidden */
 html.show-bld { --w-bld: var(--w-count); }
 html:not(.show-bld) .sheet .bld-cell { padding: 0; border: 0; overflow: hidden; visibility: hidden; }
 html:not(.show-bld) .lane-bg > .bld-lane { border-left: 0; }
@@ -563,7 +503,6 @@ col.c-rm    { width: var(--w-rm); }
 .sheet .num { text-align: right; }
 .sheet tbody tr > * { border-bottom: 1px solid color-mix(in srgb, var(--rule) 60%, transparent); }
 .sheet tbody th { font-weight: 500; }
-/* Wide layout: empty rows keep the table at least four rows tall (update() shows the ones needed); a hidden stepper gives a unit row's height */
 tr.filler { display: none; }
 html:not(.narrow) tr.filler:not([hidden]) { display: table-row; }
 tr.filler .stepper { visibility: hidden; }
@@ -580,7 +519,6 @@ tr.filler .stepper { visibility: hidden; }
 .sheet td.num.zero { color: color-mix(in srgb, var(--muted) 55%, transparent); }
 .sheet td.count { padding: .2em .4em; }
 .sheet th.count-h { text-align: center; }
-/* Building count: [−][nn][+], square buttons as tall as the field */
 .stepper { --sh: 1.75em; display: flex; justify-content: center; }
 .stepper input {
   width: 2.5em; height: var(--sh); flex: none;
@@ -610,17 +548,15 @@ tr.filler .stepper { visibility: hidden; }
 .sheet td.rm button:hover { color: var(--surface); background: var(--food); }
 .sheet td.rm button:focus-visible { outline: 2px solid var(--focus); }
 .sheet tr.empty td { color: var(--muted); padding: 1.1em .75em; white-space: normal; }
-/* Farm Reseeding and House Building: added automatically while farmers are needed / units are trained. Same colours as unit rows; only the name is italic. */
 .sheet tr.reseed th .uname, .sheet tr.houses th .uname { font-style: italic; }
 .reseed-techs { display: flex; flex-wrap: wrap; gap: .1em .8em; margin-top: .15em; font-size: .8em; font-weight: 400; }
 .reseed-techs .opt, .row-opts .opt { gap: .3em; }
 .reseed-techs .opt input { width: .95em; height: .95em; accent-color: var(--food); }
-/* The Farm row's "25s" box: after the cost on the name's line ("Farm 60w / 15s  ☐ 25s"), so the row is no taller than the others */
 .row-opts { display: inline-block; font-size: .8em; font-weight: 400; white-space: nowrap; vertical-align: baseline; }
 .meta + .row-opts { margin-left: .8em; }
-html.narrow .meta + .row-opts { margin-left: 0; }   /* the cost is hidden there: the name's own margin is the gap */
+html.narrow .meta + .row-opts { margin-left: 0; }
 .row-opts .opt { display: inline-flex; gap: .25em; padding: 0; line-height: 1; vertical-align: -.1em; }
-.row-opts .opt input { font: inherit; width: .95em; height: .95em; accent-color: var(--focus); }   /* font: inherit, or em means the control's own 13.3px */
+.row-opts .opt input { font: inherit; width: .95em; height: .95em; accent-color: var(--focus); }
 .sheet tfoot tr > * {
   border-top: 2px solid var(--ink);
   font-weight: 700;
@@ -632,18 +568,14 @@ html.narrow .meta + .row-opts { margin-left: 0; }   /* the cost is hidden there:
   background: color-mix(in srgb, var(--res) var(--tint-strong), transparent);
 }
 .sheet tfoot td.count-total { text-align: center; font-size: 1.12em; }
-/* Total villagers: to the right of the table, under the technologies */
 .grand-box { display: flex; flex-direction: column; margin-top: .5rem; padding-top: .55rem; border-top: 1px solid var(--rule); }
 .grand-label { font-size: .8rem; font-weight: 700; color: var(--muted); }
 .gl-short { display: none; }
 #grand { font-size: 2rem; line-height: 1.1; font-weight: 700; color: var(--ink); }
-/* Idle TC Time, under Villagers required (wide layouts only): the count and the slider keep their space while it's off */
 .idle-tc { display: flex; flex-direction: column; gap: .2rem; margin-top: .45rem; }
 html.narrow .idle-tc { display: none; }
 .idle-out, .idle-out[hidden] { display: flex; flex-direction: column; }
 .idle-out[hidden] { visibility: hidden; }
-/* The slider, its time, "Villagers missing" and the count share one colour (user): green at 00:00, neutral until the
-   first villager is missing (00:01–00:24), red from 00:25 on. It changes at once (no transition). */
 .idle-out { --idle: var(--food); }
 .idle-out.idle-none { --idle: var(--good); }
 .idle-out.idle-some { --idle: var(--ink); }
@@ -652,7 +584,6 @@ html.narrow .idle-tc { display: none; }
 .idle-slide { display: flex; align-items: center; gap: .45rem; margin-bottom: .1rem; }
 #idle-t { flex: 1; min-width: 0; margin: 0; accent-color: var(--idle); cursor: pointer; }
 #idle-t:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-/* The time, typed in: a field as tall as the text, wide enough for "59:59" */
 #idle-t-out {
   flex: none; width: 3.3em; height: 1.3em; font: inherit; font-weight: 500; line-height: 1; color: var(--idle); background: var(--surface);
   border: 1px solid var(--rule); border-radius: 3px; padding: 0 .2em; text-align: right;
@@ -661,7 +592,6 @@ html.narrow .idle-tc { display: none; }
 .age legend.sr, .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .short, .bl-short { display: none; }
 
-/* Technologies: to the right of the table */
 .techs {
   position: absolute;
   top: 0; right: 0; bottom: 0;
@@ -682,38 +612,29 @@ html.narrow .idle-tc { display: none; }
 .te { display: block; font-size: .8rem; color: var(--muted); line-height: 1.25; }
 #ut-list { display: flex; flex-direction: column; gap: .35rem; }
 #ut-list.none { display: none; }
-.ut-slot { display: contents; }   /* the Castle Age / Imperial Age unique tech: a place of its own only in the wide layout */
-/* Wide layout, Villagers Required: every technology keeps its place, in this order: the Castle Age unique tech, the Imperial Age
-   one, Conscription, Shipwright, Treadmill Crane. One that's missing or hidden leaves its gap (a checkbox's height if missing),
-   so ticking Naval or Buildings moves nothing. Villagers required sits level with the Totals row (placeGrand()). */
+.ut-slot { display: contents; }
 html:not(.narrow):not(.tab-te) #ut-list.none { display: flex; }
 html:not(.narrow):not(.tab-te) .ut-slot { display: flex; flex-direction: column; min-height: calc(1.25em + .16rem); }
 html:not(.narrow):not(.tab-te) .techs .opt[hidden] { display: flex; visibility: hidden; }
 html:not(.narrow):not(.tab-te) #shipwright-opt { order: 1; }
 html:not(.narrow):not(.tab-te) #crane-opt { order: 2; }
 html:not(.narrow):not(.tab-te) .grand-box { position: absolute; left: .75rem; right: .75rem; margin: 0; }
-/* ...and the column moves up into the Post-Imp cell (placeTechs()), so the table area mustn't clip it */
 html:not(.narrow):not(.tab-te) .sheet-wrap { overflow: visible; }
 
-/* Mid widths */
-/* Mid layout: up to 1320px wide, or up to 1600px while the # Builders column shows */
   html.mid { --w-tech: 10rem; --w-count: 6.4rem; --w-res: 11rem; --w-rm: 2rem; }
   html.mid fieldset.res { font-size: .84rem; padding: .5rem .55rem .55rem; }
   html.mid .bl-long { display: none; }
   html.mid .bl-short { display: inline; }
 
 
-/* Narrow screens: controls stack, table columns tighten */
 @media (min-width: 600px) {
   html.narrow.show-bld { --w-wood: 4.4rem; --w-food: 4.4rem; --w-gold: 4.4rem; --w-stone: 4.4rem; }
 }
-/* Narrow layout (stacked settings): up to 1150px wide, or up to 1320px while # Builders shows */
   html.narrow .postimp-cell { display: none; }
   html.narrow .postimp-alt { display: inline-flex; margin-bottom: .2rem; }
   html.narrow .clear-techs-alt, html.narrow .clear-techs-alt[hidden] { display: inline-block; align-self: flex-start; margin-bottom: .2rem; }
   html.narrow .sheet thead th { white-space: normal; overflow: visible; line-height: 1.15; vertical-align: bottom; }
   html.narrow { --w-tech: 9.5rem; --w-count: 6.4rem; --w-wood: 5rem; --w-food: 5rem; --w-gold: 5rem; --w-stone: 5rem; --w-rm: 2rem; }
-  /* The unit adder gets its own row; the four resources stay side by side under it, in the table's order */
   html.narrow .lanes {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-areas: "add add add add" "wood food gold stone";
@@ -766,7 +687,6 @@ html:not(.narrow):not(.tab-te) .sheet-wrap { overflow: visible; }
   html.narrow #civ-fx { flex-basis: 100%; }
   html.narrow .age { flex: 1 1 100%; flex-wrap: wrap; gap: .15rem .7rem; }
   html.narrow .age label { gap: .25rem; white-space: nowrap; }
-  /* Four resource boxes side by side on a phone: tight boxes, the rate under the name, long labels wrap (hyphenated) */
   html.narrow fieldset.res { font-size: .8rem; padding: .4rem .3rem .45rem; }
   html.narrow fieldset.res .lg { flex-direction: column; align-items: flex-start; gap: 0; }
   html.narrow .lg strong { font-size: .95rem; line-height: 1.15; }
@@ -775,7 +695,6 @@ html:not(.narrow):not(.tab-te) .sheet-wrap { overflow: visible; }
   html.narrow fieldset.res .opt { gap: .25rem; align-items: flex-start; white-space: normal; -webkit-hyphens: auto; hyphens: auto; }
   html.narrow fieldset.res .opt input { width: .85rem; height: .85rem; margin-top: .1rem; }
   html.narrow .food-grid { column-gap: .8rem; }
-  /* Relics fit the phone Gold box in two lines (three at 360 px): label and −/+, then the gold per minute */
   html.narrow #relics, html.narrow #soldiers, html.narrow #garrison { row-gap: 0; }
   html.narrow #relics .stepper, html.narrow #soldiers .stepper, html.narrow #garrison .stepper { --sh: .95rem; }
   html.narrow #relics .stepper input { width: 1.3em; }
@@ -794,14 +713,11 @@ html:not(.narrow):not(.tab-te) .sheet-wrap { overflow: visible; }
   html.narrow .civpick .combo input { padding-top: .28rem; padding-bottom: .28rem; }
 }
 @media (max-width: 599px) {
-  /* Phones with the # Builders column: slimmer steppers and number columns so names stay readable */
   html.narrow.show-bld { --w-count: 3.5rem; --w-wood: 2.3rem; --w-food: 2.3rem; --w-gold: 2.3rem; --w-stone: 2.3rem; --w-rm: 1.4rem; }
   html.narrow.show-bld .stepper { --sh: 1.3em; }
   html.narrow.show-bld .stepper input { width: 1.55em; }
 }
 
-/* Short windows in the stacked layout (phones held sideways): every line counts, so the header and the resource
-   boxes take the phones' compact sizes, and the civ bonus line keeps to one line */
 @media (max-height: 520px) {
   html.narrow .app { padding-top: .45rem; padding-bottom: .5rem; gap: .35rem; }
   html.narrow .top h1 { font-size: 1.1rem; }
@@ -819,17 +735,11 @@ html:not(.narrow):not(.tab-te) .sheet-wrap { overflow: visible; }
   html.narrow #relics .relic-out, html.narrow #soldiers .relic-out, html.narrow #garrison .relic-out { font-size: .7rem; }
 }
 
-/* No buildings (Buildings box off, none in the table): no stone costs, so the Stone column and its settings
-   are blanked out. The space stays exactly where it is, so nothing else moves. */
 :root.no-stone .sheet .stone { color: transparent; pointer-events: none; user-select: none; }
 :root.no-stone .sheet tfoot td.stone { background: none; }
 :root.no-stone fieldset.res.stone { visibility: hidden; }
 :root.no-stone .lane-bg > .stone { background: none; }
 
-/* ---------- Transition Eco tab ----------
-   Same page, minus everything about units: the adder, the unit / builder / building columns, the Age radios,
-   Post-Imp, Conscription, Treadmill Crane and Villagers required. Hidden things keep their space where
-   something else is laid out around them, so switching tabs doesn't move the resource boxes. */
 #te-row, .te-box { display: none; }
 html.tab-te #te-row { display: table-row; }
 html.tab-te .te-box { display: flex; }
@@ -844,9 +754,6 @@ html.tab-te .lane-bg > div:nth-child(-n+4) { border-left: 0; }
 .te-age input { margin: 0; accent-color: var(--focus); cursor: pointer; }
 .te-age input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .te-age .mod { text-decoration: underline dotted; text-underline-offset: 2px; }
-/* "After [] seconds": the seconds field, as tall as the text so the line doesn't grow (like a Custom Rate field). 2.15em wide
-   (user: half of 4.3em), room for three digits; a longer time widens it as far as needed: a hidden copy of the time
-   (.te-after-size, after the field so the field gives the baseline) sets the width. */
 .te-after-wrap { display: inline-grid; }
 .te-after-wrap > * { grid-area: 1 / 1; }
 .te-after-size { visibility: hidden; white-space: pre; height: 0; min-width: 2.15em; box-sizing: border-box; padding: 0 .15em; border: solid transparent; border-width: 0 1px; }
@@ -857,7 +764,6 @@ html.tab-te .lane-bg > div:nth-child(-n+4) { border-left: 0; }
 }
 .te-after-in::-webkit-inner-spin-button, .te-after-in::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .te-after-in:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
-/* Its slider: after the label where the line has room, else on a line of its own. Hidden but kept for the other radios. */
 .te-after-line { display: flex; flex-wrap: wrap; align-items: center; column-gap: .8em; }
 .te-after-slide { flex: 1 1 7em; min-width: 0; max-width: 14em; margin: 0; accent-color: var(--focus); cursor: pointer; }
 .te-after-slide[hidden] { display: block; visibility: hidden; }
@@ -865,12 +771,11 @@ html.tab-te .lane-bg > div:nth-child(-n+4) { border-left: 0; }
 .sheet td.te-in { padding: .45em .4em; }
 .te-box { flex-direction: column; margin-top: .5rem; padding-top: .55rem; border-top: 1px solid var(--rule); }
 .te-amts { display: grid; grid-template-columns: auto auto; justify-content: space-between; column-gap: .8rem; row-gap: .05rem; margin-top: .25rem; font-size: 1.05rem; font-weight: 700; }
-/* An amount: a field over a hidden copy of its text (sizeAmt()), which sets its width, so it's exactly as wide as the number */
 .te-amt-wrap { display: inline-grid; justify-self: end; }
 .te-amt-wrap > * { grid-area: 1 / 1; }
 .te-amt-size { visibility: hidden; white-space: pre; padding: 0 .2em; border: solid transparent; border-width: 0 1px; }
 .te-amt {
-  align-self: center; width: 0; min-width: 100%; height: 1.3em;   /* width 0: the field's own default width mustn't size the cell */ font: inherit; line-height: 1; color: var(--ink);
+  align-self: center; width: 0; min-width: 100%; height: 1.3em; font: inherit; line-height: 1; color: var(--ink);
   background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; padding: 0 .2em; text-align: right;
 }
 .te-amt:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
@@ -878,16 +783,13 @@ html.tab-te .lane-bg > div:nth-child(-n+4) { border-left: 0; }
 .te-amts .t-food { color: var(--food); }
 .te-amts .t-gold { color: var(--gold); }
 .te-amts .t-stone { color: var(--stone); }
-/* Narrow layouts: no remove / builder / building columns here, so the resource columns widen to hold the steppers */
 html.tab-te.narrow, html.tab-te.narrow.show-bld { --w-rm: 0px; --w-count: 0px; --w-bld: 0px; --w-wood: 6.4rem; --w-food: 6.4rem; --w-gold: 6.4rem; --w-stone: 6.4rem; }
 html.tab-te.narrow .sheet thead th:nth-child(-n+4):not(:nth-child(2)) { padding: 0; border: 0; overflow: hidden; }
-/* Stacked layouts: the adder and the Age radios have lines of their own, which would sit empty here, so they go */
 html.tab-te.narrow .adder, html.tab-te.narrow .age { display: none; }
 html.tab-te.narrow .lanes { grid-template-areas: "wood food gold stone"; }
 @media (max-width: 820px), (max-height: 520px) {
   html.tab-te.narrow .te-box { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: .1rem .6rem; margin: 0 0 0 auto; padding: 0; border: 0; }
   html.tab-te.narrow .te-amts { display: flex; flex-wrap: wrap; gap: .1rem .3rem; margin: 0; font-size: .9rem; }
-  /* In the strip an amount is underlined rather than boxed, so the line is as wide as with the plain numbers */
   html.tab-te.narrow .te-amt-wrap { margin-right: .45rem; }
   html.tab-te.narrow .te-amt-size { padding: 0; border: 0; }
   html.tab-te.narrow .te-amt { padding: 0; border-width: 0 0 1px; border-radius: 0; background: none; }
@@ -895,7 +797,7 @@ html.tab-te.narrow .lanes { grid-template-areas: "wood food gold stone"; }
 @media (max-height: 520px) {
   html.tab-te.narrow .te-ages > div { display: flex; flex-wrap: wrap; gap: 0 1.1rem; }
   html.tab-te.narrow .te-age .long { display: none; }
-  html.tab-te.narrow .te-after-slide { flex-basis: 3em; }   /* beside the After label even if short: no line to spare here */
+  html.tab-te.narrow .te-after-slide { flex-basis: 3em; }
   html.tab-te.narrow .sheet td.te-ages { padding-top: .35em; padding-bottom: .35em; }
 }
 @media (max-width: 599px) {
@@ -1138,17 +1040,14 @@ html.tab-te.narrow .lanes { grid-template-areas: "wood food gold stone"; }
             <td class="num gold" id="tot-gold">0</td>
             <td class="num stone" id="tot-stone">0</td>
           </tr>
-          <!-- Transition Eco: the age being researched, and how many villagers work each resource meanwhile -->
           <tr id="te-row">
             <td colspan="4" class="te-ages">
               <div role="radiogroup" aria-label="Age being researched, or a time in Imperial Age">
                 <label class="te-age"><input type="radio" name="te-age" value="1"> <span><span class="long">Researching </span>Feudal Age (<span id="te-t1">130s</span>)</span></label>
                 <label class="te-age"><input type="radio" name="te-age" value="2"> <span><span class="long">Researching </span>Castle Age (<span id="te-t2">160s</span>)</span></label>
                 <label class="te-age"><input type="radio" name="te-age" value="3"> <span><span class="long">Researching </span>Imperial Age (<span id="te-t3">190s</span>)</span></label>
-                <!-- Any time, in Imperial Age (user) -->
                 <div class="te-after-line">
                   <label class="te-age" title="What the villagers gather in that time, in Imperial Age"><input type="radio" name="te-age" value="4"> <span>After <span class="te-after-wrap"><input type="number" class="te-after-in" id="te-after" min="0" max="353693" step="1" value="300" inputmode="numeric" aria-label="Seconds"><span class="te-after-size" aria-hidden="true">300</span></span> seconds</span></label>
-                  <!-- 0–900 s at a stroke; shown while After is picked, its space kept otherwise (user) -->
                   <input type="range" class="te-after-slide" id="te-after-slide" min="0" max="900" step="1" value="300" aria-label="Seconds, up to 900" hidden>
                 </div>
               </div>
@@ -1168,7 +1067,6 @@ html.tab-te.narrow .lanes { grid-template-areas: "wood food gold stone"; }
         <label class="opt" id="crane-opt" hidden><input type="checkbox" id="crane"> <span class="tn">Treadmill Crane</span></label>
         <label class="opt" id="shipwright-opt" hidden><input type="checkbox" id="shipwright"> <span class="tn">Shipwright</span></label>
         <div class="grand-box"><span class="grand-label"><span class="gl-long">Villagers required</span><span class="gl-short">Villagers</span></span><b id="grand">0</b>
-          <!-- Wide layouts: the villagers a Town Center didn't train while idle, one per 25 s (user) -->
           <div class="idle-tc" id="idle-tc">
             <label class="opt"><input type="checkbox" id="idle-on"> <span class="tn">Idle TC Time</span></label>
             <div class="idle-out" id="idle-out" hidden>
@@ -1177,11 +1075,9 @@ html.tab-te.narrow .lanes { grid-template-areas: "wood food gold stone"; }
             </div>
           </div>
         </div>
-        <!-- Transition Eco: what the villagers gather while the age is researched -->
         <div class="te-box" id="te-box">
           <span class="grand-label" id="te-label">On reaching Feudal Age</span>
           <div class="te-amts">
-            <!-- Typed in, an amount sets how many work that resource (user) -->
             <span class="t-wood">Wood</span><span class="te-amt-wrap"><span class="te-amt-size" aria-hidden="true">0</span><input type="text" class="te-amt" id="te-wood" data-res="wood" value="0" maxlength="11" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Wood"></span>
             <span class="t-food">Food</span><span class="te-amt-wrap"><span class="te-amt-size" aria-hidden="true">0</span><input type="text" class="te-amt" id="te-food" data-res="food" value="0" maxlength="11" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Food"></span>
             <span class="t-gold">Gold</span><span class="te-amt-wrap"><span class="te-amt-size" aria-hidden="true">0</span><input type="text" class="te-amt" id="te-gold" data-res="gold" value="0" maxlength="11" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Gold"></span>
@@ -1195,7 +1091,6 @@ html.tab-te.narrow .lanes { grid-template-areas: "wood food gold stone"; }
 <div class="credit">List UI by <a style="color:blue" href="https://youtube.com/hjoerleif/">Hjörleif</a></div>
 <script>
 const CIV_NAMES = ["Armenians", "Aztecs", "Bengalis", "Berbers", "Bohemians", "Britons", "Bulgarians", "Burgundians", "Burmese", "Byzantines", "Celts", "Chinese", "Cumans", "Danes", "Dravidians", "Ethiopians", "Franks", "Georgians", "Goths", "Gurjaras", "Hindustanis", "Huns", "Inca", "Italians", "Japanese", "Jurchens", "Khitans", "Khmer", "Koreans", "Lithuanians", "Magyars", "Malay", "Malians", "Mapuche", "Maya", "Mongols", "Muisca", "Persians", "Poles", "Portuguese", "Romans", "Saracens", "Saxons", "Shu", "Sicilians", "Slavs", "Spanish", "Tatars", "Teutons", "Tupi", "Turks", "Varangians", "Vietnamese", "Vikings", "Wei", "Wu"];
-// [name, group, wood, food, gold, stone, seconds, flags, age per civ (0 = not available), generic age, merged members]
 const UNITS = [
   ["Villager", "Town Center", 0, 50, 0, 0, 25, "", "11111111111111111111111111111111111111111111111111111111", 1],
   ["Fishing Ship", "Dock", 75, 0, 0, 0, 40, "D", "11111111111111111111111111111111111111111111111111111111", 1],
@@ -1389,7 +1284,6 @@ const UNITS = [
   ["University", "Military", 200, 0, 0, 0, 60, "B", "33333333333333333333333333333333333333333333333333333333", 3],
   ["Watch Tower-line", "Military", 35, 0, 0, 125, 80, "B", "22222222222222222222222222222222222222222222022222222222", 2, ["Watch Tower", "Guard Tower", "Keep"]]
 ];
-// Post-Imp: every unit and building as [unique, available per civ] and the upgrade steps between them.
 const MEMBERS = {
   "Villager": [0, "11111111111111111111111111111111111111111111111111111111"],
   "Fishing Ship": [0, "11111111111111111111111111111111111111111111111111111111"],
@@ -1677,36 +1571,24 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const LETTER = { wood: "w", food: "f", gold: "g", stone: "s" };
   const AGES = ["Dark Age", "Feudal Age", "Castle Age", "Imperial Age"];
 
-  /* ---------- gathering ---------- */
-  // Base work rates per villager per second (generic civ).
   const BASE = { gold: 0.38, stone: 0.36 };
-  // Lumberjack wood per minute by the best upgrade owned (each needs the one before).
   const LUMBER = { "": 23.3, dba: 27.9, bs: 33.2, tms: 36.6 };
   const FOOD = { berries: 0.31, hunt: 0.41, sheep: 0.33, fish: 0.43 };
-  // Fishing Ship food per minute by where it fishes, then by upgrade: none, Fishing Lines, Gillnets (which needs Fishing Lines).
   const FISH_SHIP = { shore: { "": 14.4, fl: 15.84, gn: 17.42 }, deep: { "": 25.3, fl: 27.8, gn: 30.5 }, trap: { "": 20.9, fl: 23, gn: 25.3 } };
   const fishKey = () => (on("gn") ? "gn" : on("fl") ? "fl" : "");
-  // Fish Traps come in Feudal Age (every civ). Before that the Trap spot is locked and the ships fish deep water; a Trap choice
-  // is kept and returns in Feudal Age, like an age-locked tick.
   const TRAP_AGE = 2;
   const fishSpot = () => (state.fish === "trap" && !ageOpen(TRAP_AGE) ? "deep" : state.fish);
   const SPOT_TIP = { shore: "Shore fish", deep: "Deep-sea fish", trap: "Fish Traps" };
   const spotTip = (s) => tip(s === "trap" && !ageOpen(TRAP_AGE) ? `Available from ${AGES[TRAP_AGE - 1]}` : "", SPOT_TIP[s]);
-  // Fish Traps (user): 715 food each, rebuilt when empty. Fishing Ships build them in 47 s, 42 s with Fishing Lines, 40 s with Gillnets.
   const TRAP_FOOD = 715;
   const TRAP_TIME = { "": 47, fl: 42, gn: 40 };
-  // Farm rates per villager per minute by farm upgrades owned.
-  // Hand Cart without Heavy Plow is estimated from the Heavy Plow gain seen with Wheelbarrow.
   const FARM_TABLES = {
     generic: { "": 20.3, hp: 21.2, wb: 23.03, "wb+hp": 23.16, hc: 23.87, "hc+hp": 24.0 },
     aztecs:  { "": 22.46, hp: 22.98, wb: 23.9, "wb+hp": 24.0, hc: 23.9, "hc+hp": 24.0 },
     berbers: { "": 20.88, hp: 21.61, wb: 23.13, "wb+hp": 23.64, hc: 23.48, "hc+hp": 24.0 },
     khmer:   { "": 21.48, hp: 22.11, wb: 23.56, "wb+hp": 23.77, hc: 23.79, "hc+hp": 24.0 },
-    pasture: { "": 22.8, hp: 22.8, wb: 24.4, "wb+hp": 24.4, hc: 25.4, "hc+hp": 25.4 },   // updated 2026-09-29; Pastoralism doesn't change it
+    pasture: { "": 22.8, hp: 22.8, wb: 24.4, "wb+hp": 24.4, hc: 25.4, "hc+hp": 25.4 },
   };
-  // Alternative income sources, per minute (rates tested by hand). They join a resource's source dropdown whenever available.
-  // kind = what one unit of the source is. civs: who has it (none = every civ; team: allies count too),
-  // age: earliest age, unique: a unique building (kept under Full Tech Tree).
   const NICHE = {
     wood: [
       { id: "feitoria", label: "Feitoria", perMin: 42, kind: "feitoria", civs: ["Portuguese"], age: 4, unique: true, tip: "Portuguese Feitoria" },
@@ -1716,12 +1598,8 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     ],
     gold: [
       { id: "feitoria", label: "Feitoria", perMin: 60, kind: "feitoria", civs: ["Portuguese"], age: 4, unique: true, tip: "Portuguese Feitoria" },
-      // Every civ, from Feudal Age (the Market, the Dock); the rate follows Caravan and the Bump factor, or Caravan, Clinker
-      // Construction and Carvel Hull (tradePerMin()).
       { id: "trade", label: "Trade Carts", kind: "trade", age: 2, tip: "Trade Carts going between Markets on opposite sides of the map" },
       { id: "cog", label: "Trade Cogs", kind: "cog", age: 2, tip: "Trade Cogs going between Docks on opposite sides of the map" },
-      // Fishing Ships on whales (every civ, Dark Age): 30 gold per minute each (user), with Fishing Lines, Gillnets and fishing
-      // bonuses (whalePerMin()).
       { id: "whale", label: "Whaling", kind: "whale", age: 1, tip: "Fishing Ships gathering gold from whales" },
     ],
     stone: [
@@ -1729,21 +1607,14 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     ],
   };
   const STD_SRC = { wood: "Trees", gold: "Gold Mine", stone: "Stone Mine" };
-  // Column headings for villagers on these sources (user; others read "# Wood vils" etc.). Each shows where it fits, else the
-  // plain form (fitHeads()). Trade Carts and Cogs too, whose plain forms are "# Carts" / "# Cogs" (they wrap on phones).
   const HEADS = { wood: { std: "Lumberjacks" }, gold: { std: "Gold Miners", trade: "Trade Carts", cog: "Trade Cogs" }, stone: { std: "Stone Miners" },
     food: { farm: "Farmers", berries: "Foragers", sheep: "Shepherds", hunt: "Hunters", fish: "Fishermen" } };
-  RES.forEach((res) => { HEADS[res].custom = "Villagers"; });   // a custom income (user)
+  RES.forEach((res) => { HEADS[res].custom = "Villagers"; });
   const FOOD_STD = [["farm", "Farm"], ["berries", "Berries"], ["hunt", "Hunt"], ["sheep", "Sheep"], ["fish", "Fisherman"], ["fship", "Fishing Ship"]];
   const KIND = { vils: ["vils", "villager"], feitoria: ["Feitorias", "Feitoria"], livestock: ["Livestock", "livestock animal"],
     fship: ["Fishing Ships", "Fishing Ship"], trade: ["Trade Carts", "Trade Cart"], cog: ["Trade Cogs", "Trade Cog"],
     whale: ["Whaling Ships", "Whaling Ship"] };
-  const WHALE = 30;   // Whaling: gold per minute per Whaling Ship, unupgraded (user)
-  // Trade Carts and Trade Cogs (github.com/cnordenb/aoe2_tradeprofit): a trip x tiles from Market to Market (Dock to Dock) brings
-  // 0.46 × x × (x / d + 0.3) gold on a map d tiles across, and the unit goes there and back at its speed in tiles per second.
-  // Always a 2v2 map (Medium, 168 tiles) side to side (user): x = d − 8 for a cart, d − 6 for a cog. So a cart makes 21.6 gold per
-  // minute, 25.9 with Caravan (user), and a cog 28.8. Keyed by gold source id. "Bump factor" (user, Trade Carts only): carts
-  // bumping into each other, 20% less gold.
+  const WHALE = 30;
   const TRADE_D = 168;
   const TRADE_UNIT = { trade: { edge: 8, speed: 1.25 }, cog: { edge: 6, speed: 1.65 } };
   const CARAVAN_SPEED = 20, HULL_SPEED = 10, TRADE_BUMP = 20;
@@ -1762,46 +1633,32 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const CONSC_DESC = "Military buildings except Siege Workshops work 33% faster";
   const CRANE_DESC = "Builders work 20% faster";
   const SHIPWRIGHT_DESC = "Ships cost 20% less wood and train 50% faster";
-  // Tooltip: why a box is locked (if it is), then what the tech does.
   const tip = (why, desc) => (why ? `${why}. ${desc}` : desc);
   const TECH_NAME = { dba: "Double-Bit Axe", bs: "Bow Saw", tms: "Two-Man Saw", hp: "Heavy Plow", wb: "Wheelbarrow",
     hc: "Hand Cart", fl: "Fishing Lines", gn: "Gillnets", gm: "Gold Mining", gsm: "Gold Shaft Mining", sm: "Stone Mining", ssm: "Stone Shaft Mining",
     car: "Caravan", clk: "Clinker Construction", crv: "Carvel Hull", hcol: "Horse Collar", crop: "Crop Rotation" };
-  // Khitan Pastures replace Farms, and these replace the farm techs (same ticks). They only add food per pasture:
-  // 345 food, 460 with Domestication, 690 with Pastoralism, 1035 with Transhumance.
   const PASTURE_TECH = { hcol: ["Domestication", "Pastures hold 115 more food"], hp: ["Pastoralism", "Pastures hold 230 more food"],
     crop: ["Transhumance", "Pastures hold 345 more food"] };
-  // Age (1 Dark .. 4 Imperial) each eco upgrade becomes available, and civs that differ (aoe2techtree.net).
   const TECH_AGE = { dba: 2, bs: 3, tms: 4, hp: 3, wb: 2, hc: 3, fl: 2, gn: 3, gm: 2, gsm: 3, sm: 2, ssm: 3, car: 3, clk: 3, crv: 4, hcol: 2, crop: 4 };
-  const TECH_AGE_CIV = { Burgundians: { dba: 1, bs: 2, tms: 3, hp: 2, wb: 1, hc: 2, fl: 1, gn: 2, gm: 1, gsm: 2, sm: 1, ssm: 2, car: 2, hcol: 1, crop: 3 } };   // e.g. Burgundians get eco upgrades an age early
-  // Civs missing each eco upgrade in their tech tree. Khitans have the pasture versions of Horse Collar, Heavy Plow and Crop Rotation.
+  const TECH_AGE_CIV = { Burgundians: { dba: 1, bs: 2, tms: 3, hp: 2, wb: 1, hc: 2, fl: 1, gn: 2, gm: 1, gsm: 2, sm: 1, ssm: 2, car: 2, hcol: 1, crop: 3 } };
   const NO_TECH = {
     tms: ["Armenians", "Aztecs", "Berbers", "Bulgarians", "Celts", "Danes", "Franks", "Georgians", "Gurjaras", "Inca", "Khmer", "Malay", "Malians", "Mapuche", "Mongols", "Poles", "Romans", "Sicilians", "Tatars", "Wei"],
     gsm: ["Dravidians", "Georgians", "Goths", "Italians", "Khitans", "Lithuanians", "Maya", "Poles", "Portuguese", "Spanish", "Teutons", "Varangians", "Vietnamese"],
     ssm: ["Armenians", "Bengalis", "Britons", "Burmese", "Cumans", "Dravidians", "Franks", "Huns", "Japanese", "Magyars", "Romans", "Saracens", "Saxons", "Shu", "Slavs", "Tatars", "Tupi", "Turks", "Vikings"],
     crop: ["Armenians", "Bohemians", "Britons", "Celts", "Chinese", "Danes", "Dravidians", "Ethiopians", "Hindustanis", "Huns", "Japanese",
       "Koreans", "Mongols", "Saracens", "Shu", "Spanish", "Tupi", "Turks", "Wu"],
-    // Clinker Construction and Carvel Hull (aoe2techtree trees, 2026-10-04: techs 908 and 907; 909 / 910 carry the same internal
-    // names but are Siphons and Incendiaries).
     clk: ["Saxons"],
     crv: ["Aztecs", "Bohemians", "Bulgarians", "Chinese", "Cumans", "Ethiopians", "Georgians", "Inca", "Magyars", "Maya", "Muisca", "Saxons", "Tupi"],
   };
 
-  /* ---------- unit groups used by civ bonuses ---------- */
-  // UNITS rows: [name, group, wood, food, gold, stone, time, flags, age per civ, generic age, merged members]
-  // Upgrade-line members that cost the same and train equally fast share one row (e.g. "Militia-line", "(Elite) Samurai").
   const members = (u) => u[10] || [u[0]];
-  // flags: I infantry, A ranged, M mounted, G gunpowder, S stable, W siege workshop,
-  //        X siege weapon, D dock, N warship, L military, B building, U unique (per aoe2techtree)
   const has = (f) => (u) => u[7].indexOf(f) !== -1;
   const named = (...n) => (u) => members(u).some((m) => n.indexOf(m) !== -1);
   const any = (...fs) => (u) => fs.some((f) => f(u));
   const INF = has("I"), RANGED = has("A"), GUN = has("G"), STABLE = has("S"), WORKSHOP = has("W"),
         SIEGE = has("X"), DOCK = has("D"), WARSHIP = has("N"), MIL = has("L"), BLD = has("B");
   const UNIT = (u) => !BLD(u);
-  // Buildings villagers build: all but the Fish Trap, which Fishing Ships build (builder bonuses and Treadmill Crane skip it).
   const VIL_BLD = (u) => BLD(u) && u[0] !== "Fish Trap";
-  // Regional units and buildings: not unique, but only some civs have them (aoe2techtree.net RegionalUnit / RegionalBuilding).
   const REGIONAL = new Set(["Armored Elephant", "Siege Elephant", "Battle Elephant", "Elite Battle Elephant", "Camel Rider", "Heavy Camel Rider",
     "Catapult Galleon", "Champi Scout", "Champi Runner", "Champi Warrior", "Elite Champi Warrior", "Dromon", "Eagle Scout", "Eagle Warrior",
     "Elite Eagle Warrior", "Elephant Archer", "Elite Elephant Archer", "Fire Lancer", "Elite Fire Lancer", "Hei Guang Cavalry",
@@ -1810,7 +1667,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     "Caravanserai", "Fortified Church", "Mule Cart", "Pasture", "Settlement"]);
   const REGIONAL_OR_UNIQUE = (u) => has("U")(u) || members(u).some((m) => REGIONAL.has(m));
   const FOOT_ARCHER = (u) => RANGED(u) && !has("M")(u);
-  // Foot Soldiers (Saxons): infantry and foot archers (user), not cavalry, cavalry archers, siege or ships.
   const FOOT_SOLDIER = (u) => MIL(u) && (INF(u) || FOOT_ARCHER(u));
   const VIL = named("Villager");
   const SPEAR = named("Spearman", "Pikeman", "Halberdier");
@@ -1820,39 +1676,35 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const FORT = named("Palisade Wall", "Palisade Gate", "Stone Wall", "Fortified Wall", "Gate", "Watch Tower",
                      "Guard Tower", "Keep", "Bombard Tower", "Castle", "Donjon", "Krepost");
 
-  // Effect builders. p is a percentage, or [Dark, Feudal, Castle, Imperial].
   const cost = (m, p, label, res) => ({ k: "cost", m, p, label, res });
   const flat = (m, res, v, label) => ({ k: "flat", m, res, v, p: v, label });
   const faster = (m, p, label) => ({ k: "time", m, p, label });
   const rate = (src, p, label) => ({ k: "rate", src, p, label });
   const farmTable = (t, label) => ({ k: "farm", t, label });
   const team = (e) => Object.assign(e, { team: true });
-  // Replace a share of one resource with another, e.g. gold cost paid in food instead.
-  // v: a fixed amount of the other resource instead of the same amount (Kamandaran: the gold goes, +25 wood).
   const swap = (m, from, to, frac, label, v) => ({ k: "swap", m, from, to, frac, v, p: 1, label });
   const inGroup = (...g) => (u) => g.indexOf(u[1]) !== -1;
   const RANGE = has("R"), BARRACKS = has("K"), CAMEL_OR_ELE = any(has("C"), has("E"));
   const MOUNTED_ARCHER = (u) => RANGED(u) && has("M")(u);
 
-  // Civ and team bonuses that change villager counts, from aoe2techtree.net civ descriptions.
   const FX = {
     Armenians: [cost(named("Mule Cart"), 25, "Mule Carts cost −{p}%"),
-      { k: "ecoboost", p: 40, label: "Mule Cart technology effects +{p}%" }],   // Lumber / Mining Camp techs (rates())
+      { k: "ecoboost", p: 40, label: "Mule Cart technology effects +{p}%" }],
     Aztecs: [team({ k: "relicgold", mult: 1.33, label: "Relics generate +33% gold" }), faster(MIL, 15, "Military Units train +{p}% faster"), farmTable("aztecs", "Villagers carry +3")],
     Berbers: [cost(STABLE, [0, 0, 15, 20], "Stable Units cost −{p}%"), Object.assign(farmTable("berbers", "Villagers move +{p}% faster"), { p: [5, 10, 10, 10] }),
               team({ k: "unlock", ages: { Genitour: 3, "Elite Genitour": 4 }, label: "Genitour available at the Archery Range starting in Castle Age" })],
     Bohemians: [flat(named("Blacksmith", "University"), "wood", 100, "Blacksmiths and Universities cost −100 wood"), team(faster(named("Trade Cart"), 80, "Markets work +{p}% faster")),
-      { k: "freeups", ups: ["gm", "gsm", "sm", "ssm"], label: "Mining Camp technologies free" }],   // always researched (freeUp())
+      { k: "freeups", ups: ["gm", "gsm", "sm", "ssm"], label: "Mining Camp technologies free" }],
     Britons: [rate("sheep", 25, "Shepherds work +{p}% faster"), cost(named("Town Center"), [0, 0, 50, 50], "Town Centers cost −{p}% wood", ["wood"]), team(faster(RANGE, 10, "Archery Ranges work +{p}% faster"))],
     Bulgarians: [cost(named("Town Center"), 50, "Town Centers cost −{p}% stone", ["stone"])],
-    Burmese: [{ k: "freeups", ups: ["dba", "bs", "tms"], label: "Lumber Camp technologies free" }],   // always researched (freeUp())
+    Burmese: [{ k: "freeups", ups: ["dba", "bs", "tms"], label: "Lumber Camp technologies free" }],
     Byzantines: [cost(any(SPEAR, SKIRM, CAMEL), 25, "Camel Riders, Skirmishers and Spearman-line cost −{p}%")],
     Celts: [rate("wood", 15, "Lumberjacks work +{p}% faster"), team(faster(WORKSHOP, 20, "Siege Workshops work +{p}% faster"))],
     Cumans: [flat(named("Archery Range", "Stable"), "wood", 75, "Archery Ranges and Stables cost −75 wood")],
     Danes: [rate("food", 5, "Fishing Ships and Villagers drop off +{p}% food")],
     Dravidians: [cost(SIEGE, 33, "Siege Weapons cost −{p}% wood", ["wood"]), { k: "agebonus", res: { wood: 200 }, label: "Receive +200 wood when advancing to the next Age" }],
     Franks: [rate("berries", 15, "Foragers work +{p}% faster"), cost(named("Castle"), [0, 0, 15, 25], "Castles cost −{p}%"),
-             { k: "freeups", ups: ["hcol", "hp", "crop"], label: "Farm upgrades free" }],   // Mill techs always researched (freeUp())
+             { k: "freeups", ups: ["hcol", "hp", "crop"], label: "Farm upgrades free" }],
     Goths: [cost(INF, [15, 20, 25, 30], "Infantry costs −{p}%"), team(faster(BARRACKS, 20, "Barracks work +{p}% faster"))],
     Hindustanis: [cost(VIL, [8, 13, 18, 23], "Villagers cost −{p}%")],
     Huns: [cost(named("Cavalry Archer", "Heavy Cavalry Archer"), [0, 0, 10, 20], "Cavalry Archers cost −{p}%"), team(faster(STABLE, 20, "Stables work +{p}% faster")),
@@ -1874,7 +1726,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     Maya: [{ k: "farmfood", mult: 1.15, label: "Resources last +15% longer" }, cost(FOOT_ARCHER, [0, 10, 20, 30], "Foot Archers cost −{p}%"), team(cost(named("Palisade Wall", "Stone Wall", "Fortified Wall"), 50, "Walls cost −{p}%"))],
     Mongols: [rate("hunt", 40, "Hunters work +{p}% faster")],
     Muisca: [cost(named("Settlement"), 33, "Settlements cost −{p}%"),
-      { k: "freeups", ups: ["car"], label: "Caravan free" }],   // aoe2techtree "Caravan, Guilds free"; Guilds (trade fees) isn't modelled
+      { k: "freeups", ups: ["car"], label: "Caravan free" }],
     Persians: [faster(any(VIL, DOCK), [5, 10, 15, 20], "Town Centers and Docks work +{p}% faster"),
                { k: "ageup", p: [5, 10, 15, 20], label: "Town Centers and Docks work +{p}% faster" }],
     Portuguese: [cost(UNIT, 20, "All units cost −{p}% gold", ["gold"]), team({ k: "ageup", p: 25, label: "Technologies research +{p}% faster" }),
@@ -1884,54 +1736,38 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     Saracens: [flat(named("Market"), "wood", 100, "Markets cost −100 wood")],
     Sicilians: [{ k: "farmfood", upg: 2.25, label: "Farm upgrades provide +125% additional food" }, faster(FORT, 50, "Fortifications built +{p}% faster"), faster(named("Town Center"), 100, "Town Centers built +{p}% faster"), team(cost(named("Transport Ship"), 50, "Transport Ships cost −{p}%"))],
     Slavs: [rate("farm", 15, "Farmers work +{p}% faster"), cost(WORKSHOP, 15, "Siege Workshop Units cost −{p}%")],
-    Spanish: [faster(VIL_BLD, 30, "Builders work +{p}% faster"), team({ k: "tradegold", p: 25, label: "Trade Units generate +{p}% gold" })],   // tradePerMin()
+    Spanish: [faster(VIL_BLD, 30, "Builders work +{p}% faster"), team({ k: "tradegold", p: 25, label: "Trade Units generate +{p}% gold" })],
     Teutons: [cost(named("Farm"), 40, "Farms cost −{p}%")],
     Turks: [rate("gold", 25, "Gold miners work +{p}% faster"), team(faster(GUN, 25, "Gunpowder Units train +{p}% faster"))],
-    Vikings: [{ k: "freeups", ups: ["wb", "hc"], label: "Wheelbarrow, Hand Cart free" },   // always researched (freeUp())
+    Vikings: [{ k: "freeups", ups: ["wb", "hc"], label: "Wheelbarrow, Hand Cart free" },
               cost(WARSHIP, [0, 10, 15, 20], "Warships cost −{p}%"), team(cost(named("Dock"), 15, "Docks cost −{p}%"))],
     Wei: [cost(named("Traction Trebuchet", "Lou Chuan"), 25, "Traction Trebuchets and Lou Chuans cost −{p}%")],
   };
 
   FX["Ethiopians"] = [{ k: "agebonus", res: { food: 100, gold: 100 }, label: "Receive +100 gold and +100 food when advancing to the next Age" },
     team(cost(named("Outpost"), 100, "Outposts cost no stone", ["stone"]))];
-  // Gurjaras: livestock garrisoned in Mills holding F food produce 15 × ln(F / 200 + 1) food per minute (user; F is the Food box's
-  // Garrisoned Food Amount, state.garrison).
   FX["Gurjaras"] = [{ k: "garrison", perMin: (f) => 15 * Math.log(f / 200 + 1), label: "Can garrison livestock in Mills to passively produce food" },
     team(faster(CAMEL_OR_ELE, 25, "Camel and Elephant Units train +{p}% faster"))];
-  // Georgians: gatherers of a resource whose "Near Fortified Church" box is ticked work +10% faster (rates(); from Castle Age).
   FX["Georgians"] = [{ k: "church", p: 10, label: "Fortified Churches provide Villagers in a 9 tiles radius with +{p}% work rate" }];
-  FX["Vietnamese"] = [{ k: "freeups", ups: ["consc"], label: "Conscription free" }];   // always researched from Imperial (freeUp())
-  // Saxons: Foot Soldiers cost −5% per Town Center or Castle held, up to −20%; the count is the adder's "TCs/Castles" (0–4,
-  // state.tcCastles), so p follows it. The bonus line shows aoe2techtree's text whatever the count (user); a unit's tooltip
-  // says what applies (appliedLabel).
+  FX["Vietnamese"] = [{ k: "freeups", ups: ["consc"], label: "Conscription free" }];
   FX["Saxons"] = [Object.defineProperty(Object.assign(cost(FOOT_SOLDIER, 0, "Foot Soldiers cost −5% per Town Center or Castle controlled (maximum −20%)"),
     { tc: true, appliedLabel: "Foot Soldiers cost −{p}%" }), "p", { get: () => 5 * state.tcCastles, enumerable: true })];
   FX["Lithuanians"] = [team(faster(named("Monk", "Missionary"), 20, "Monasteries work +{p}% faster"))];
   FX["Chinese"] = [team({ k: "farmfood", mult: 1.1, label: "Farms hold +10% food" })];
-  // Food from Trade Carts or Cogs: p% of each one's gold rate, bonuses included (user), while one is the gold source.
   FX["Bengalis"] = [team({ k: "tradefood", p: 10, label: "Trade Units generate +{p}% food in addition to gold" })];
   FX["Burgundians"] = [team({ k: "relicfood", perMin: 20, label: "Relics generate food in addition to gold" })];
-  // Gold from food gathering: a share of the food rate per source (villagers 10%; Fishing Ships 1 gold per 20 food, user).
-  // Food from lumberjacks: 6.859% of the lumberjack rate, upgrades and bonuses included. Gold from stone miners: 33% of the
-  // stone rate, likewise (user).
   FX["Shu"] = [{ k: "woodfood", mult: 0.06859, label: "Lumberjacks generate food in addition to wood" }];
   FX["Poles"] = [{ k: "stonegold", mult: 0.33, label: "Stone Miners generate gold in addition to stone" }];
-  // Their Caravan bonus (aoe2techtree "Bloodlines and Caravan effects +50%"): trade units +30% faster instead of +20% (tradePerMin()).
   FX["Varangians"] = [{ k: "foodgold", mult: { sheep: 0.1, hunt: 0.1, fish: 0.1, fship: 0.05 }, label: "Shepherding, fishing, and hunting also generate gold" },
     { k: "caravan", p: 50, label: "Caravan effects +{p}%" }];
   FX["Wu"] = [team(faster(named("House"), 100, "Houses built +{p}% faster"))];
-  // Unique technologies that change unit costs, training times or gather rates (aoe2techtree.net).
-  // Others (combat stats, population, new income sources without a known rate) are left out on purpose.
-  // more: naval (only listed, and only in effect, while Naval is ticked).
   const ut = (name, age, desc, fx, more) => Object.assign({ name, age, desc, fx }, more);
-  // Population space a unit takes, less p% (House Building only).
   const lessPop = (m, p, label) => ({ k: "pop", m, p, label });
   const UT = {
     Bengalis: [ut("Mahayana", 4, "Villagers and Monks take 10% less population space",
       [lessPop(named("Villager", "Monk"), 10, "Villagers and Monks take {p}% less population space")])],
     Berbers: [ut("Kasbah", 3, "Castles work 25% faster", [faster(inGroup("Castle"), 25, "Castles work {p}% faster")])],
     Bohemians: [ut("Hussite Reforms", 4, "Monks cost food instead of gold", [swap(named("Monk"), "gold", "food", 1, "Monks cost food instead of gold")])],
-    // Gold per farmer per minute (user): 0.8, 0.9 with Wheelbarrow, 1 with Hand Cart.
     Burgundians: [ut("Burgundian Vineyards", 3, "Farmers slowly generate gold in addition to food",
       [{ k: "farmgold", perMin: { "": 0.8, wb: 0.9, hc: 1 }, label: "farmers generate gold in addition to food" }])],
     Cumans: [ut("Steppe Husbandry", 3, "Scout Cavalry-line, Steppe Lancers and Cavalry Archers train 100% faster",
@@ -1955,7 +1791,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     Mapuche: [ut("Butalmapu", 4, "Castle unique units and Bolas Riders cost 15% less",
       [cost((u) => (u[1] === "Castle" && has("U")(u)) || named("Bolas Rider", "Elite Bolas Rider")(u), 15, "Castle unique units and Bolas Riders −{p}%")])],
     Muisca: [ut("Huaracas", 4, "Slingers train 50% faster", [faster(named("Slinger"), 50, "Slingers train {p}% faster")])],
-    // No gold, 25 more wood (user: an Archer costs 50w with it, not 70w).
     Persians: [ut("Kamandaran", 3, "Archer-line costs +25 wood instead of gold",
       [swap(named("Archer", "Crossbowman", "Arbalester"), "gold", "wood", 1, "Archer-line costs +25 wood instead of gold", 25)])],
     Poles: [ut("Szlachta Privileges", 3, "Knight-line costs 60% less gold",
@@ -1967,19 +1802,15 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     Saxons: [ut("Clerical Recruitment", 3, "Monks train 33% faster", [faster(named("Monk"), 33, "Monks train {p}% faster")])],
     Slavs: [ut("Detinets", 3, "40% of Castle and Watch Tower-line stone paid in wood",
       [swap(named("Castle", "Watch Tower", "Guard Tower", "Keep"), "stone", "wood", 0.4, "40% of the stone cost paid in wood")])],
-    // Food: 1.8 per soldier per minute (user), for the count in the Food box's Soldiers row (state.soldiers).
     Wei: [ut("Tuntian", 3, "Soldiers passively produce food", [{ k: "soldierfood", perMin: 1.8, label: "soldiers produce food" }])],
-    // Gold: 3.55% of the lumberjack rate, upgrades and bonuses included (user).
     Vietnamese: [ut("Paper Money", 4, "Lumberjacks slowly generate gold in addition to wood",
       [{ k: "woodgold", mult: 0.0355, label: "lumberjacks generate gold in addition to wood" }])],
   };
   const CONSCRIPTION_AGE = 4;
-  // Treadmill Crane (University, Castle Age): builders work 20% faster. Civs without it, per aoe2techtree.net.
   const CRANE_AGE = 3;
   const CRANE_MISSING = ["Bengalis", "Bohemians", "Bulgarians", "Celts", "Chinese", "Cumans", "Danes", "Dravidians", "Ethiopians",
     "Hindustanis", "Huns", "Khmer", "Mongols", "Persians", "Romans", "Saracens", "Sicilians", "Slavs", "Spanish", "Teutons"];
   const CRANE = faster(VIL_BLD, 20, "builders work {p}% faster");
-  // Shipwright (University, Imperial Age): ships −20% wood, trained 50% faster. Civs without it, per aoe2techtree.net (2026-09-30).
   const SHIPWRIGHT_AGE = 4;
   const SHIPWRIGHT_MISSING = ["Armenians", "Bohemians", "Bulgarians", "Burgundians", "Burmese", "Cumans", "Franks", "Georgians", "Hindustanis",
     "Huns", "Jurchens", "Khitans", "Khmer", "Lithuanians", "Malians", "Mapuche", "Muisca", "Persians", "Poles", "Portuguese", "Saracens",
@@ -1993,61 +1824,44 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const BUILDING_GROUPS = ["Economic", "Military"];
   const parentOf = (u) => (BUILDING_GROUPS.indexOf(u[1]) !== -1 ? "Buildings" : "Units");
   const norm = (s) => s.toLowerCase().replace(/[-\s]+/g, " ").trim();
-  // What an entry is found by: its name, its members' names, its group and "units" / "buildings". A unique member (Camel
-  // Scout, Houfnice …) only where it can be had (uniqueShown()).
   const searchOf = (i) => { const u = UNITS[i]; return [u[0]].concat(members(u).filter(uniqueShown), [u[1], parentOf(u)]).map(norm).join(" | "); };
-  // Old saves and searches may use a member's own name; map it to its row.
   const ALIAS = new Map();
-  // Entries renamed since (user, 2026-09-30): old saves use the old names.
   const RENAMED = { "Elite Skirmisher / Imperial Skirmisher": "Elite Skirmisher", "Ram-line": "Battering Ram-line",
     "Bombard Cannon-line": "Bombard Cannon", "Stone Wall-line": "Stone/Fortified Wall", "Camel Rider-line": "(Heavy) Camel Rider",
     "Armored Elephant-line": "Armored/Siege Elephant" };
   UNITS.forEach((u) => members(u).forEach((m) => { if (!byName.has(m)) ALIAS.set(m, u[0]); }));
 
-  // Transition Eco's "After [] seconds" (user): research value 4, any time from 0 s to 98h14m53s (353,693 s; user), 300 s to start with,
-  // always in Imperial Age.
   const TE_AFTER = 4, TE_AFTER_SECS = 300, TE_AFTER_MAX = 98 * 3600 + 14 * 60 + 53;
   const state = { rows: [], food: "farm", fish: "deep", up: Object.fromEntries(UPS.map((k) => [k, false])), civ: "Generic", allies: [], age: 3, dock: false, ftt: false, regional: false, consc: false, crane: false, shipwright: false, uts: [], postimp: false, bldOn: false,
     src: { wood: "std", gold: "std", stone: "std" }, customRate: {}, relics: 0, useReseed: true, useHouses: true,
-    tradeBump: false,   // Trade Carts: the Bump factor (20% less gold)
-    church: { wood: false, food: false, gold: false, stone: false },   // Georgians: gatherers near a Fortified Church, per resource
-    soldiers: 0,   // Wei with Tuntian: soldiers producing food (0–SOLDIERS_MAX)
-    garrison: 800,   // Gurjaras: food held by livestock garrisoned in Mills (0–GARRISON_MAX, GARRISON_START to start with)
-    tcCastles: 1,   // Saxons: Town Centers and Castles held (0–4), −5% on Foot Soldiers each
-    idleTc: false, idleT: 0,   // Idle TC Time: shown, and the seconds the Town Center stood idle (0–IDLE_MAX)
-    // Transition Eco: research 1–3 = the age being researched, 4 = "After [after] seconds" in Imperial Age (TE_AFTER)
+    tradeBump: false,
+    church: { wood: false, food: false, gold: false, stone: false },
+    soldiers: 0,
+    garrison: 800,
+    tcCastles: 1,
+    idleTc: false, idleT: 0,
     tab: "vr", te: { research: 1, after: TE_AFTER_SECS, vils: { wood: 0, food: 0, gold: 0, stone: 0 } } };
   const TE_MAX = 200;
   const SOLDIERS_MAX = 999;
-  const GARRISON_START = 800, GARRISON_MAX = 9999, GARRISON_STEP = 100;   // Garrisoned Food Amount (user)
-  const TC_MAX = 4;   // Saxon TCs/Castles: −5% each, up to −20%
-  // Idle TC Time: up to 59:59 typed in, the slider up to 10:00; a villager missing per 25 s, the base training time whatever the civ (user).
+  const GARRISON_START = 800, GARRISON_MAX = 9999, GARRISON_STEP = 100;
+  const TC_MAX = 4;
   const IDLE_MAX = 59 * 60 + 59, IDLE_VIL_T = 25;
-  // Building footprints in tiles per side (game data, DE update 147949), and the most builders that fit around each size (user).
   const SIZE = {
     "Palisade Wall": 1, "Stone/Fortified Wall": 1, "Watch Tower-line": 1, "Bombard Tower": 1, Outpost: 1, "Mule Cart": 1, "Fish Trap": 1,
-    House: 2, Mill: 2, "Lumber Camp": 2, "Mining Camp": 2, Donjon: 2, Pasture: 2,   // Pasture: its foundation (the finished pasture is 4×4)
+    House: 2, Mill: 2, "Lumber Camp": 2, "Mining Camp": 2, Donjon: 2, Pasture: 2,
     Barracks: 3, "Archery Range": 3, Stable: 3, Blacksmith: 3, Dock: 3, Harbor: 3, Farm: 3, Monastery: 3, "Fortified Church": 3, Krepost: 3, Folwark: 3,
-    Settlement: 3,   // newer than that data (user)
+    Settlement: 3,
     "Town Center": 4, Market: 4, Castle: 4, "Siege Workshop": 4, University: 4, Caravanserai: 4,
     Wonder: 5, Feitoria: 5 };
   const BUILDERS_BY_SIZE = { 1: 14, 2: 22, 3: 33, 4: 44, 5: 53 };
-  // The gates are 4×1, so they get their own limit (user).
-  // A Farm or Fish Trap: one builder's build time, but no builder counted (NO_BUILDERS).
   const MAX_BUILDERS = { Gate: 38, "Palisade Gate": 38, Farm: 1, "Fish Trap": 1 };
   const maxBuilders = (name) => MAX_BUILDERS[name] || BUILDERS_BY_SIZE[SIZE[name]] || (CUSTOM.building.re.test(name) ? CUSTOM_BUILDERS : 20);
-  // Custom units and buildings (user): up to CUSTOM_MAX of each, "Custom Unit n" / "Custom Building n", whose costs and
-  // training / build time are typed in. They have no type, so only bonuses for every unit (or every building) reach them.
-  // A unit costs no stone and takes 1 population; a building costs no food, takes none, and has builders.
   const CUSTOM_MAX = 5;
   const CUSTOM = {
-    // max: the highest cost and time (s) that can be typed (user)
     unit: { prefix: "Custom Unit", res: ["wood", "food", "gold"], flags: "", time: "training time", parent: "Units", max: 999 },
     building: { prefix: "Custom Building", res: ["wood", "gold", "stone"], flags: "B", time: "build time", parent: "Buildings", max: 9999 },
   };
   Object.values(CUSTOM).forEach((d) => { d.re = new RegExp(`^${d.prefix} [1-${CUSTOM_MAX}]$`); });
-  // A custom building's size is unknown: as many builders as the largest building takes. It may also have 0 (user): then no builder
-  // is counted, and it takes one builder's time.
   const CUSTOM_BUILDERS = 53;
   const CUSTOM_NEW_T = 30;
   const CUSTOM_ALL_AGES = "1".repeat(CIV_NAMES.length);
@@ -2057,7 +1871,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const cleanCustom = (c, kind) => Object.assign(
     Object.fromEntries(RES.map((r) => [r, CUSTOM[kind].res.indexOf(r) !== -1 ? Math.round(clampNum(c && c[r], 0, CUSTOM[kind].max, 0)) : 0])),
     { t: Math.round(clampNum(c && c.t, 1, CUSTOM[kind].max, CUSTOM_NEW_T) * 10) / 10 });
-  // The UNITS row a table row stands for (a custom one's is made up from its numbers).
   const rowUnit = (row) => (row.custom
     ? [row.name, "Custom", row.custom.wood, row.custom.food, row.custom.gold, row.custom.stone, row.custom.t, CUSTOM[customKind(row.name)].flags, CUSTOM_ALL_AGES, 1]
     : UNITS[byName.get(row.name)]);
@@ -2070,16 +1883,12 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const wrap = $("sheet-wrap");
   const clearBtn = $("clear");
 
-  /* ---------- persistence ---------- */
-  // Everything at its starting value: nothing for Clear to do, so it's hidden.
   function isCleared() {
     return !state.rows.length && state.civ === "Generic" && !state.allies.length && state.age === 3 &&
       state.food === "farm" && state.fish === "deep" && ["wood", "gold", "stone"].every((r) => state.src[r] === "std") && !state.tradeBump && !state.relics && !state.soldiers && state.garrison === GARRISON_START && state.tcCastles === 1 && !state.idleTc && !state.idleT && !state.consc && !state.crane && !state.shipwright && !state.uts.length && !state.postimp &&
       UPS.every((k) => !state.up[k]) && RES.every((r) => !state.church[r]) && state.te.research === 1 && state.te.after === TE_AFTER_SECS && RES.every((r) => !state.te.vils[r]);
   }
-  // Something for Clear Techs to do: any technology that is ticked and in effect.
   function anyTechOn() {
-    // Only ticks whose box shows: in its resource's box, or in the reseed row.
     const inReseed = (k) => reseedShown && !inTE() && (k === "hcol" || k === "hp" || k === "crop");
     return UPS.some((k) => on(k) && !freeUp(k) && ((laneShown(k) && (showStone() || (k !== "sm" && k !== "ssm"))) || inReseed(k))) ||
       (!state.ftt && shownTechs().some((t) => state.uts.indexOf(t.name) !== -1 && ageOpen(t.age))) ||
@@ -2094,7 +1903,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   }
   function save() {
     syncButtons();
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage unavailable */ }
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { }
   }
   function load() {
     try {
@@ -2106,16 +1915,15 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         s.rows.forEach((r) => {
           if (!r) return;
           const count = Math.max(0, Math.min(99, parseInt(r.count, 10) || 0));
-          if (r.custom) {   // a custom unit or building keeps its name and numbers
+          if (r.custom) {
             const kind = customKind(r.name);
             if (kind && !state.rows.some((x) => x.name === r.name) && customRows(kind).length < CUSTOM_MAX) {
-              const b = parseInt(r.builders, 10);   // a custom building may have 0 builders
+              const b = parseInt(r.builders, 10);
               const builders = kind === "building" && Number.isFinite(b) ? Math.max(0, Math.min(CUSTOM_BUILDERS, b)) : 1;
               state.rows.push({ name: r.name, count, builders, custom: cleanCustom(r.custom, kind) });
             }
             return;
           }
-          // Older saves used member names ("Champion") or "Militia line" / "Samurai line" style names.
           const plain = String(r.name).replace(/[- ]line(?= \(|$)/, "");
           const name = byName.has(r.name) ? r.name : RENAMED[r.name] || ALIAS.get(r.name) || ALIAS.get(plain);
           if (!name) return;
@@ -2128,7 +1936,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       if (FOOD_STD.some(([v]) => v === s.food) || NICHE.food.some((o) => o.id === s.food) || s.food === "custom") state.food = s.food;
       if (FISH_SHIP[s.fish]) state.fish = s.fish;
       if (s.up) UPS.forEach((k) => { state.up[k] = !!s.up[k]; });
-      // Older saves use the old civ names.
       const civName = (c) => ({ Incas: "Inca", Mayans: "Maya" })[c] || c;
       if (CIVS.indexOf(civName(s.civ)) !== -1) state.civ = civName(s.civ);
       if (Array.isArray(s.allies)) {
@@ -2136,7 +1943,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       }
       if (cur && s.age >= 0 && s.age <= 3) state.age = s.age | 0;
       state.dock = !!s.dock;
-      state.useReseed = s.useReseed !== false;   // on unless turned off (older saves have neither)
+      state.useReseed = s.useReseed !== false;
       state.useHouses = s.useHouses !== false;
       state.ftt = !!s.ftt;
       state.regional = !!s.regional;
@@ -2145,7 +1952,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       state.shipwright = !!s.shipwright;
       state.postimp = !!s.postimp;
       state.bldOn = !!s.bldOn;
-      // Only sources that still exist (Relic used to be a gold source).
       if (s.src) ["wood", "gold", "stone"].forEach((r) => { if (s.src[r] === "custom" || NICHE[r].some((o) => o.id === s.src[r])) state.src[r] = s.src[r]; });
       if (s.customRate) RES.forEach((r) => { if (Number.isFinite(parseFloat(s.customRate[r]))) state.customRate[r] = clampRate(s.customRate[r]); });
       state.tradeBump = !!s.tradeBump;
@@ -2157,7 +1963,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       const tc = parseInt(s.tcCastles, 10);
       if (Number.isFinite(tc)) state.tcCastles = Math.max(0, Math.min(TC_MAX, tc));
       state.idleTc = !!s.idleTc;
-      state.idleT = state.idleTc ? Math.max(0, Math.min(IDLE_MAX, parseInt(s.idleT, 10) || 0)) : 0;   // no time kept while unticked
+      state.idleT = state.idleTc ? Math.max(0, Math.min(IDLE_MAX, parseInt(s.idleT, 10) || 0)) : 0;
       if (s.te) {
         if ([1, 2, 3, TE_AFTER].indexOf(s.te.research) !== -1) state.te.research = s.te.research;
         const after = parseInt(s.te.after, 10);
@@ -2165,29 +1971,19 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         if (s.te.vils) RES.forEach((r) => { const v = parseInt(s.te.vils[r], 10); if (Number.isFinite(v)) state.te.vils[r] = Math.max(0, Math.min(TE_MAX, v)); });
       }
       if (!FOOD_STD.some(([v]) => v === state.food) && !NICHE.food.some((o) => o.id === s.food) && state.food !== "custom") state.food = "farm";
-      if (Array.isArray(s.uts)) state.uts = s.uts.filter((n) => typeof n === "string");   // older saves keep the new Imperial default
-    } catch (e) { /* ignore bad data */ }
+      if (Array.isArray(s.uts)) state.uts = s.uts.filter((n) => typeof n === "string");
+    } catch (e) { }
   }
 
-  /* ---------- civ effects ---------- */
   const fxOf = (civ) => FX[civ] || [];
-  // Bonuses worth listing in the current tab. Transition Eco only cares about gathering and age-ups;
-  // Villagers Required about everything else (and not age-ups).
   const TE_KINDS = ["rate", "farm", "ageup", "agebonus", "forage", "foodgold", "woodfood", "stonegold", "ecoboost", "freeups", "church",
-    "tradegold", "caravan", "tradefood"];   // relics don't count in Transition Eco
-  // Stone miners' gold only matters while the Stone column shows (only buildings cost stone). A free tech counts in Transition Eco
-  // only if it's an eco upgrade (not Vietnamese Conscription).
-  // With "After [] seconds" no age is reached, so age-up bonuses don't count.
+    "tradegold", "caravan", "tradefood"];
   const relevant = (e) => (inTE() ? TE_KINDS.indexOf(e.k) !== -1 && (e.k !== "freeups" || e.ups.some((k) => UPS.indexOf(k) !== -1)) &&
       !(teAfter() && (e.k === "ageup" || e.k === "agebonus"))
     : e.k !== "ageup" && e.k !== "agebonus" && inReach(e) && (e.k !== "stonegold" || showStone()));
-  // A bonus that changes only buildings is listed while Buildings is ticked, and one that changes only naval entries (Dock units,
-  // Dock, Harbor, Fish Trap) while Naval is ticked, or either while it reaches the table anyway: a row in it, the Houses of House
-  // Building, the Farms / Pastures of Farm Reseeding, or the Fish Traps of Fish Trap Rebuilding.
-  const RES_AT = { wood: 2, food: 3, gold: 4, stone: 5 };   // cost columns in UNITS rows
+  const RES_AT = { wood: 2, food: 3, gold: 4, stone: 5 };
   const changes = (e, u) => (e.k === "flat" ? u[RES_AT[e.res]] > 0 : e.k === "swap" ? u[RES_AT[e.from]] > 0
     : e.k === "cost" ? (e.res || RES).some((r) => u[RES_AT[r]] > 0) : true);
-  // The entries it changes, if all of them pass the test, else null (also with no unit matcher).
   const onlyOf = (e, test, key) => {
     if (e[key] === undefined) {
       const hit = e.m ? UNITS.filter((u) => e.m(u) && changes(e, u)) : [];
@@ -2205,14 +2001,9 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     return (!b || state.bldOn || inTable(b) || customRows("building").some((r) => { const u = rowUnit(r); return e.m(u) && changes(e, u); })) &&
       (!nv || state.dock || inTable(nv));
   }
-  // Everything that applies: your civ's bonuses (incl. its team bonus) plus each ally's team bonus.
-  // Team bonuses don't stack, so an ally of your own civ adds nothing new.
-  // Full Tech Tree switches off every civ bonus, team bonus and unique technology.
-  // Generic is exempt: it has no box, and allies' team bonuses still count there.
   const fttOn = () => state.ftt && state.civ !== "Generic";
-  // Transition Eco: the age being researched sets the current age (Researching Feudal = Dark Age, and so on).
   const inTE = () => state.tab === "te";
-  const curAge = () => (inTE() ? state.te.research - 1 : state.age);   // "After [] seconds" (4) is Imperial Age (3)
+  const curAge = () => (inTE() ? state.te.research - 1 : state.age);
   const teAfter = () => inTE() && state.te.research === TE_AFTER;
   function activeFx() {
     const out = [];
@@ -2225,18 +2016,13 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         if (state.uts.indexOf(t.name) !== -1 && ageOpen(t.age) && navalOk(t)) t.fx.forEach((e) => out.push({ e, tech: t.name }));
       });
     }
-    if ((state.consc || freeUp("consc")) && ageOpen(CONSCRIPTION_AGE)) out.push({ e: CONSCRIPTION, tech: "Conscription" });   // free for Vietnamese
+    if ((state.consc || freeUp("consc")) && ageOpen(CONSCRIPTION_AGE)) out.push({ e: CONSCRIPTION, tech: "Conscription" });
     if (state.crane && craneOpen() && state.bldOn && !inTE()) out.push({ e: CRANE, tech: "Treadmill Crane" });
     if (state.shipwright && shipwrightOpen() && state.dock && !inTE()) SHIPWRIGHT.forEach((e) => out.push({ e, tech: "Shipwright" }));
     return out;
   }
   const civTechs = () => (state.civ === "Generic" ? [] : UT[state.civ] || []);
-  // Naval unique techs (Circumnavigation) only while Naval is ticked, like Treadmill Crane with Buildings.
   const navalOk = (t) => !t.naval || state.dock;
-  // Transition Eco only lists the unique techs that change gathering.
-  // Transition Eco lists only the unique techs that change gathering or income and can count there (the age being left is at
-  // most Castle): Grand Trunk Road, Burgundian Vineyards.
-  // Imperial Age techs count only with "After [] seconds" (Paper Money).
   const teTech = (t) => (t.age < 4 || teAfter()) && t.fx.some((e) => e.k === "rate" || e.k === "farmgold" || e.k === "woodgold");
   const shownTechs = () => civTechs().filter((t) => navalOk(t) && (!inTE() || teTech(t)));
   const hasCrane = () => state.civ === "Generic" || state.ftt || CRANE_MISSING.indexOf(state.civ) === -1;
@@ -2245,7 +2031,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const shipwrightOpen = () => hasShipwright() && ageOpen(SHIPWRIGHT_AGE);
   const hasBuildingRow = () => state.rows.some((r) => BLD(rowUnit(r)));
   const source = (x) => (x.tech ? ` (${x.tech})` : x.from ? ` (from ${x.from} Ally)` : x.e.team ? " (team bonus)" : "");
-  // Units an ally's team bonus makes available (e.g. Genitours from a Berber ally).
   function allyUnlockAge(name) {
     let best = 0;
     if (fttOn()) return 0;
@@ -2256,13 +2041,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   }
   const pctAt = (e, age) => (Array.isArray(e.p) ? e.p[age] : e.p);
   const pct = (e) => pctAt(e, curAge());
-  // An entry whose unique member comes before the rest of its line: [that member, its age]. Where the member can be had
-  // (Gurjaras; Generic with Include Regional & Unique) the entry opens in that age and is named after it until the rest arrive
-  // (user: Camel Scout in Feudal Age, the same as Camel Rider here but for the name).
   const EARLY_UNIQUE = { "(Heavy) Camel Rider": ["Camel Scout", 2] };
-  // Age (1-4) in which the selected civ can first make this unit or building; 0 = not in its tech tree.
-  // With Full Tech Tree on, every non-unique unit and building is open to the civ (from its usual age), and it keeps its own
-  // unique units (an early unique member too).
   const ageOf = (i) => {
     const u = UNITS[i], early = EARLY_UNIQUE[u[0]];
     if (state.civ === "Generic") return early && state.regional ? Math.min(u[9], early[1]) : u[9];
@@ -2274,19 +2053,15 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     return age;
   };
   const available = (i) => { const a = ageOf(i); return a > 0 && a <= curAge() + 1; };
-  // The Dock, what it trains, and the buildings that only exist alongside it.
   const isDock = (u) => u[1] === "Dock" || u[0] === "Dock" || u[0] === "Harbor" || u[0] === "Fish Trap";
 
-  // Training times that change with the age, not by an upgrade (user): the Eagle Scout takes 40 s in Feudal Age, 30 s from
-  // Castle Age. That is the unit's base time in each age (bonuses apply to it, and it isn't marked as changed).
   const AGE_TIME = { "Eagle Scout": [40, 40, 30, 30] };
   const baseTime = (u) => (AGE_TIME[u[0]] ? AGE_TIME[u[0]][curAge()] : u[6]);
 
   function effective(u) {
     const c = { wood: u[2], food: u[3], gold: u[4], stone: u[5] };
     let t = baseTime(u);
-    const applied = [], timeFx = [];   // timeFx: the applied time effects, also listed in applied
-    // Fishing Lines and Gillnets speed up building Fish Traps (while their Food boxes show, i.e. with Fishing Ship food).
+    const applied = [], timeFx = [];
     const fk = u[0] === "Fish Trap" && state.food === "fship" ? fishKey() : "";
     if (fk) {
       t = TRAP_TIME[fk];
@@ -2295,7 +2070,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     }
     activeFx().forEach((x) => {
       let e = x.e;
-      // Fishing Ships working faster (Japanese) also build Fish Traps faster.
       if (e.k === "rate" && e.src === "fship" && u[0] === "Fish Trap") e = Object.assign({}, e, { k: "time", m: () => true });
       if (e.k !== "cost" && e.k !== "flat" && e.k !== "time" && e.k !== "swap") return;
       if (!e.m(u)) return;
@@ -2305,7 +2079,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       else if (e.k === "flat") c[e.res] = Math.max(0, c[e.res] - e.v);
       else if (e.k === "swap") { const moved = c[e.from] * e.frac; c[e.from] -= moved; c[e.to] += e.v !== undefined ? e.v : moved; }
       else { t = t / (1 + p / 100); timeFx.push(fill(e.label, p) + source(x)); }
-      applied.push(fill(e.appliedLabel || e.label, p) + source(x));   // appliedLabel: what applies, where the label is general
+      applied.push(fill(e.appliedLabel || e.label, p) + source(x));
     });
     RES.forEach((r) => { c[r] = Math.round(c[r]); });
     return { c, t, applied, timeFx };
@@ -2328,8 +2102,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const farmT = FARM_TABLES[tableFx ? tableFx.t : "generic"];
     const ship = state.food === "fship";
     let food = state.food === "farm" ? farmT[farmKey()] / 60 : ship ? FISH_SHIP[fishSpot()][fishKey()] / 60 : FOOD[state.food];
-    // Mule Cart technologies (Armenians: effects +40%): each Lumber / Mining Camp tech's gain is that much larger. For wood the gain
-    // is each step of the measured LUMBER table (Double-Bit Axe 23.3 → 27.9 = +19.7%, so +27.6%).
     const boost = fx.reduce((b, e) => (e.k === "ecoboost" ? b * (1 + pct(e) / 100) : b), 1);
     const gain = (ratio) => 1 + (ratio - 1) * boost;
     const m = (keys) => keys.reduce((p, k) => (on(k) ? p * gain(MULT[k]) : p), 1);
@@ -2342,44 +2114,34 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     fx.forEach((e) => {
       if (e.k !== "rate") return;
       const f = 1 + pct(e) / 100;
-      if (e.src === "all") RES.forEach((k) => { if (k !== "food" || !ship) r[k] *= f; });   // villagers only, not Fishing Ships
+      if (e.src === "all") RES.forEach((k) => { if (k !== "food" || !ship) r[k] *= f; });
       else if (e.src === "food") r.food *= f;
       else if (RES.indexOf(e.src) !== -1) r[e.src] *= f;
       else if (e.src === state.food) r.food *= f;
     });
-    // Georgians: villagers near a Fortified Church work faster, for each resource whose box is ticked (not Fishing Ships; a niche
-    // or custom source replaces the rate below anyway).
     fx.forEach((e) => {
       if (e.k !== "church" || !ageOpen(CHURCH_AGE)) return;
       RES.forEach((res) => { if (state.church[res] && (res !== "food" || !ship)) r[res] *= 1 + pct(e) / 100; });
     });
-    // Niche incomes replace the standard rate for their resource.
     const gtr = activeFx().some((x) => x.tech === "Grand Trunk Road");
     RES.forEach((res) => {
       const o = nicheOf(res);
       if (!o) return;
       let v = (TRADE_UNIT[o.id] && res === "gold" ? tradePerMin() : o.kind === "whale" ? whalePerMin() : o.perMin) / 60;
-      if (res === "gold" && gtr) v *= 1.1;                       // all gold income +10% (trade too)
+      if (res === "gold" && gtr) v *= 1.1;
       r[res] = v;
     });
-    // A custom income: the rate typed in the resource's heading, as it is (no upgrades or bonuses).
     RES.forEach((res) => { if (srcOf(res) === "custom") r[res] = (state.customRate[res] || CUSTOM_RATE) / 60; });
     return r;
   }
-  // A resource's source: the food source, or wood / gold / stone's ("std", a NICHE id, or "custom").
   const srcOf = (res) => (res === "food" ? state.food : state.src[res]);
-  const CUSTOM_RATE = 20;   // per minute, for a custom income saved without its rate
+  const CUSTOM_RATE = 20;
   const clampRate = (v) => Math.round(clampNum(v, 0.1, 999.9, CUSTOM_RATE) * 10) / 10;
-  // Relics need Monks: none before Castle Age. The count is kept for later, like an age-locked tick.
   const RELIC_AGE = 3;
-  // Georgians' Fortified Church (their Monastery) comes in Castle Age too; the "Near Fortified Church" ticks wait, like relics.
   const CHURCH_AGE = 3;
   const churchCiv = () => activeFx().some((x) => x.e.k === "church");
-  // The box shows only for gatherers that are villagers (not Fishing Ships, Feitorias, livestock or a custom rate).
   const churchShown = (res) => kindOf(res) === "vils" && srcOf(res) !== "custom";
   const relicsNow = () => (ageOpen(RELIC_AGE) ? state.relics : 0);
-  // Per second from the relics in the Gold box: 30 gold each (Aztec team bonus +33%, Grand Trunk Road +10%),
-  // plus 20 food each with a Burgundian civ or ally.
   function relicIncome(n = relicsNow()) {
     const xs = activeFx();
     let gold = (n * 30) / 60;
@@ -2388,17 +2150,9 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const food = xs.reduce((f, x) => (x.e.k === "relicfood" ? f + (n * x.e.perMin) / 60 : f), 0);
     return { gold, food };
   }
-  // Gold per minute from each Whaling Ship: +10% each with Fishing Lines and Gillnets (their "Fishing Ships work 10% faster"), and
-  // Fishing Ships working faster (Japanese). Grand Trunk Road is applied by rates(). The Danes' food drop-off bonus doesn't apply.
   const whalePerMin = () => activeFx().reduce((g, x) => (x.e.k === "rate" && x.e.src === "fship" ? g * (1 + pct(x.e) / 100) : g),
     ["fl", "gn"].reduce((g, k) => (on(k) ? g * 1.1 : g), WHALE));
-  // The trade unit picked as the gold source ("trade" for Trade Carts, "cog" for Trade Cogs), or null.
   const tradeSrc = () => (TRADE_UNIT[state.src.gold] ? state.src.gold : null);
-  // Gold per minute from each Trade Cart or Trade Cog, done as aoe2_tradeprofit does it (Grand Trunk Road is applied by rates(), as
-  // for other gold sources). A round trip of 2x tiles brings one trip's gold, so per minute 0.46 × (x / d + 0.3) × 60 × speed ÷ 2.
-  // Caravan: speed +20%, +30% for Varangians (its effect +50%). A cog's Clinker Construction and Carvel Hull: +10% each, then its
-  // speed is rounded up to two decimals (1.65 × 1.2 × 1.1 × 1.1 = 2.3958 → 2.40). A Spanish civ or ally's team bonus adds 25% to the
-  // gold, and the Bump factor (carts only) takes 20% off.
   function tradePerMin() {
     const src = tradeSrc(), u = TRADE_UNIT[src], xs = activeFx();
     if (!u) return 0;
@@ -2413,29 +2167,18 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const spanish = xs.reduce((g, f) => (f.e.k === "tradegold" ? g * (1 + pct(f.e) / 100) : g), gold);
     return state.tradeBump && src === "trade" ? spanish * (1 - TRADE_BUMP / 100) : spanish;
   }
-  // Wood per second from each forager (Portuguese civ bonus), while Berries is the food source.
   const forageEach = () => (state.food === "berries" ? activeFx().reduce((w, x) => (x.e.k === "forage" ? w + x.e.perMin / 60 : w), 0) : 0);
-  // Food from each lumberjack, as a share of the lumberjack rate (Shu civ bonus), while Trees is the wood source.
   const woodFoodShare = () => (state.src.wood === "std" ? activeFx().reduce((m, x) => (x.e.k === "woodfood" ? m + x.e.mult : m), 0) : 0);
-  // Food from each Trade Cart or Cog, as a share of its gold rate (Bengali team bonus), while one is the gold source.
   const tradeFoodShare = () => (tradeSrc() ? activeFx().reduce((m, x) => (x.e.k === "tradefood" ? m + pct(x.e) / 100 : m), 0) : 0);
-  // Gold from each stone miner, as a share of the stone rate (Polish civ bonus), while Stone Mine is the stone source.
   const stoneGoldShare = () => (state.src.stone === "std" ? activeFx().reduce((m, x) => (x.e.k === "stonegold" ? m + x.e.mult : m), 0) : 0);
-  // Gold from each lumberjack, as a share of the lumberjack rate (Vietnamese Paper Money, ticked and in Imperial Age), while Trees
-  // is the wood source.
   const woodGoldShare = () => (state.src.wood === "std" ? activeFx().reduce((m, x) => (x.e.k === "woodgold" ? m + x.e.mult : m), 0) : 0);
-  // Gold per second from each farmer (Burgundian Vineyards, ticked and from Castle Age), while Farm is the food source: by the
-  // best of Wheelbarrow / Hand Cart.
   const farmGoldEach = () => (state.food === "farm"
     ? activeFx().reduce((g, x) => (x.e.k === "farmgold" ? g + x.e.perMin[on("hc") ? "hc" : on("wb") ? "wb" : ""] / 60 : g), 0) : 0);
-  // The civ can have that gold (its line in the Gold box exists, so ticking the tech moves nothing).
   const hasTechFx = (k) => !fttOn() && civTechs().some((t) => t.fx.some((e) => e.k === k));
   const hasWoodGold = () => hasTechFx("woodgold");
-  // Gold from each food gatherer, as a share of its food rate (Varangian civ bonus), while it's the food source.
   const foodGoldShare = () => activeFx().reduce((m, x) => (x.e.k === "foodgold" ? m + (x.e.mult[state.food] || 0) : m), 0);
   const FOOD_GOLD_WHO = { sheep: ["Shepherds", "shepherd", "shepherds"], hunt: ["Hunters", "hunter", "hunters"],
-    fish: ["Fishermen", "fisherman", "fishermen"], fship: ['<span class="wide-only">Fishing </span>Ships', "Fishing Ship", "Fishing Ships"] };   // "from Ships" in narrow layouts, like the heading
-  // The niche source picked for a resource (null for the standard one).
+    fish: ["Fishermen", "fisherman", "fishermen"], fship: ['<span class="wide-only">Fishing </span>Ships', "Fishing Ship", "Fishing Ships"] };
   function nicheOf(res) {
     const id = res === "food" ? state.food : state.src[res];
     return NICHE[res].find((o) => o.id === id) || null;
@@ -2444,13 +2187,12 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   function nicheAvail(o) {
     if (o.age > curAge() + 1) return false;
     if (!o.civs) return true;
-    if (state.civ === "Generic") return state.regional;   // a civ's own income, like its unique units: only with Include Regional & Unique (user)
+    if (state.civ === "Generic") return state.regional;
     if (state.ftt) return !!o.unique && o.civs.indexOf(state.civ) !== -1;
     if (o.civs.indexOf(state.civ) !== -1) return true;
     return !!o.team && state.allies.some((c) => o.civs.indexOf(c) !== -1);
   }
 
-  /* ---------- Post-Imp: only the latest version of each upgrade line ---------- */
   const KIDS = {}, LINE_OF = {}, LINE_NODES = [];
   EDGES.forEach(([p, c]) => { (KIDS[p] = KIDS[p] || []).push(c); });
   (function groupLines() {
@@ -2469,8 +2211,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
   })();
   const unique = (m) => !!(MEMBERS[m] && MEMBERS[m][0]);
-  // A unique member (e.g. Camel Scout, Imperial Skirmisher) counts in names and searches for the civ that has it, and for
-  // Generic only with Include Regional & Unique ticked (user).
   const uniqueShown = (m) => !unique(m) || (state.civ === "Generic" ? state.regional : memberHas(m));
   function memberHas(m) {
     const info = MEMBERS[m];
@@ -2484,7 +2224,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     (KIDS[n] || []).forEach((k) => { if (!out.has(k)) { out.add(k); descendants(k, out); } });
     return out;
   }
-  // For each line: which entries to hide as early versions, and what the others are called.
   function postImpView() {
     const view = { hidden: new Set(), name: new Map(), search: new Map() };
     const entriesOf = new Map();
@@ -2495,7 +2234,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     entriesOf.forEach((idxs, id) => {
       const nodes = LINE_NODES[id];
       const mixed = nodes.some(unique) && nodes.some((n) => !unique(n));
-      // Generic follows the regular line (Champion, not Legionary); unique replacements stay as extras.
       const avail = state.civ === "Generic" ? nodes.filter((n) => !mixed || !unique(n)) : nodes.filter(memberHas);
       const frontier = avail.filter((n) => ![...descendants(n)].some((d) => avail.indexOf(d) !== -1));
       const text = nodes.filter(uniqueShown).map(norm).join(" | ");
@@ -2510,11 +2248,9 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
     return view;
   }
-  // ---- One entry per unit line in the table ----
   const ENTRY_OF = new Map();
   UNITS.forEach((u, i) => members(u).forEach((m) => { if (!ENTRY_OF.has(m)) ENTRY_OF.set(m, i); }));
   const lineOf = (i) => LINE_OF[members(UNITS[i])[0]];
-  // Rows that belong to the same upgrade line (and are made in the same building group) as entry i.
   function sameLineRows(i) {
     const id = lineOf(i);
     if (id === undefined) return [];
@@ -2524,7 +2260,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       return j !== i && lineOf(j) === id && UNITS[j][1] === UNITS[i][1];
     });
   }
-  // Next version up the line for the selected civ and age: { target, why } or null if this is already the last one.
   function upgradeOf(i) {
     const ms = members(UNITS[i]);
     const queue = [];
@@ -2545,8 +2280,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     return { target: -1, node: first, why: `${state.civ} can't upgrade to ${first}` };
   }
 
-  // One step up a row's line (the Upgrade button): to the next version the civ can reach now, merging into that version's
-  // row if the table has one. Returns whether the row moved.
   function upgradeRow(row) {
     const up = row.custom ? null : upgradeOf(byName.get(row.name));
     if (!up || up.target < 0) return false;
@@ -2564,41 +2297,31 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   let piView = null;
   const view = () => (state.postimp ? (piView = piView || postImpView()) : null);
   const invalidateView = () => { piView = null; };
-  // Entries named with their unique member too where it can be had (user): Generic with Include Regional & Unique, or the
-  // civ that has it outside Post-Imp (which names the latest version).
   const NAME_WITH_UNIQUE = { "Elite Skirmisher": ["Imperial Skirmisher", "Elite/Imperial Skirmisher"] };
   const displayName = (i) => {
     const w = NAME_WITH_UNIQUE[UNITS[i][0]], early = EARLY_UNIQUE[UNITS[i][0]];
-    if (early && !ageOpen(UNITS[i][9]) && uniqueShown(early[0])) return early[0];   // e.g. Camel Scout until Castle Age
+    if (early && !ageOpen(UNITS[i][9]) && uniqueShown(early[0])) return early[0];
     if (w && (state.civ === "Generic" ? state.regional : !state.postimp && memberHas(w[0]))) return w[1];
     return (state.postimp && view().name.get(i)) || UNITS[i][0];
   };
 
-  /* ---------- formatting ---------- */
   const fmt = (n) => (Math.round(n * 10) / 10).toFixed(1);
-  // Villagers come in whole numbers: the totals always round up (small epsilon guards float noise).
-  // Each row shows its share to one decimal (fmt), since the villagers are shared between rows.
   const vils = (n) => Math.max(0, Math.ceil(n - 1e-9));
   const fmtT = (t) => (Math.abs(t - Math.round(t)) < 0.05 ? String(Math.round(t)) : t.toFixed(1));
   const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 
-  // n villagers build a building in 3t / (n + 2), where t is the time for one builder.
   const withBuilders = (t, n) => (n > 1 ? (3 * t) / (n + 2) : t);
-  // Built by the one who will work it (a Farm by its farmer, a Fish Trap by its Fishing Ship): no # Builders, none counted.
   const NO_BUILDERS = named("Farm", "Fish Trap");
-  // Farm or Fish Trap row with "One per Villager / Fishing Ship" (row.perVil, the name kept for saves): each new worker builds
-  // its own, so one every Villager (25 s) or Fishing Ship (40 s) training time instead of every build time.
   const WORKER = { Farm: "Villager", "Fish Trap": "Fishing Ship" };
   const perWorker = (u, row) => !!WORKER[u[0]] && !!(row && row.perVil);
   const workerTime = (u) => effective(UNITS[byName.get(WORKER[u[0]])]).t;
-  // A custom building with 0 builders takes one builder's time (row.builders || 1 here and in costMeta()).
   const rowTime = (u, e, row) => (perWorker(u, row) ? workerTime(u) : BLD(u) ? withBuilders(e.t, row.builders || 1) : e.t);
 
   function costMeta(u, withTitle, row) {
     const e = effective(u), builders = (row && row.builders) || 1;
     if (perWorker(u, row)) {
       const w = WORKER[u[0]];
-      e.t = workerTime(u);   // build-speed bonuses no longer set the pace
+      e.t = workerTime(u);
       e.applied = e.applied.filter((a) => e.timeFx.indexOf(a) === -1).concat(`One per ${w}: a ${w} every ${fmtT(e.t)}s`);
     } else if (BLD(u) && builders > 1) {
       e.t = withBuilders(e.t, builders);
@@ -2619,8 +2342,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     return html;
   }
 
-  /* ---------- farm reseeding ---------- */
-  // Food in one farm: 175, +75 Horse Collar, +125 Heavy Plow, +175 Crop Rotation, then civ and team bonuses.
   function farmFood() {
     let upg = (on("hcol") ? 75 : 0) + (on("hp") ? 125 : 0) + (on("crop") ? 175 : 0), mult = 1;
     activeFx().forEach((x) => {
@@ -2631,12 +2352,8 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     return (175 + upg) * mult;
   }
   const pastures = () => !fttOn() && fxOf(state.civ).some((e) => e.k === "farm" && e.t === "pasture");
-  // Food in one Khitan pasture: 345, +115 Domestication, +230 Pastoralism, +345 Transhumance.
   const pastureFood = () => 345 + (on("hcol") ? 115 : 0) + (on("hp") ? 230 : 0) + (on("crop") ? 345 : 0);
   let reseedShown = false;
-  // Each farm or pasture is rebuilt when it runs out: once every (build time + time to gather it).
-  // A farm has one farmer; a pasture two, so 9 villagers need 5 pastures.
-  // Lumberjacks needed = farms × farm wood ÷ that cycle ÷ wood per lumberjack per second.
   function reseed(r, tot) {
     const tr = $("reseed-row");
     if (!tr) return;
@@ -2660,9 +2377,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (show !== reseedShown) { reseedShown = show; requestAnimationFrame(fit); }
   }
 
-  /* ---------- fish trap rebuilding ---------- */
-  // Like Farm Reseeding, for Fishing Ships working Fish Traps (the Farm Reseeding box switches both): one trap per ship,
-  // rebuilt by that ship when it runs out, once every (build time + time to gather it).
   const trapsOn = () => state.useReseed && state.food === "fship" && fishSpot() === "trap";
   const trapFood = () => activeFx().reduce((f, x) => (x.e.k === "trapfood" ? f * x.e.mult : f), TRAP_FOOD);
   let trapShown = false;
@@ -2687,19 +2401,14 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (show !== trapShown) { trapShown = show; requestAnimationFrame(fit); }
   }
 
-  /* ---------- house building ---------- */
-  // Every unit trained takes population space: 1, half for Karambit Warriors, less with Mahayana or Aznauri Cavalry.
   const HALF_POP = named("Karambit Warrior", "Elite Karambit Warrior");
   function unitPop(u) {
     let pop = HALF_POP(u) ? 0.5 : 1;
     activeFx().forEach((x) => { if (x.e.k === "pop" && x.e.m(u)) pop *= 1 - pct(x.e) / 100; });
     return pop;
   }
-  // A House gives 5 population (10 for Inca); Huns need none.
   const housePop = () => activeFx().reduce((p, x) => (x.e.k === "housepop" ? p + x.e.v : p), 5);
   let houseShown = false;
-  // One House every (population per house ÷ population trained per second). A lumberjack builds it, so besides
-  // its wood, the build time is lumberjack time lost: lumberjacks needed = houses per second × (wood ÷ wood rate + build time).
   function houseBuilding(r, tot, popRate) {
     const tr = $("house-row");
     if (!tr) return;
@@ -2721,7 +2430,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
 
   const unitWord = (res) => ({ vils: "villagers", feitoria: "Feitorias", livestock: "livestock", fship: "Fishing Ships", trade: "Trade Carts", cog: "Trade Cogs", whale: "Whaling Ships" })[kindOf(res)];
 
-  /* ---------- totals ---------- */
   function update() {
     const r = rates();
     RES.forEach((res) => {
@@ -2732,7 +2440,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       rin.hidden = !custom;
       if (custom && document.activeElement !== rin) rin.value = state.customRate[res] || CUSTOM_RATE;
       $("rate-" + res + "-t").title = `Gathered per ${one} per minute`;
-      // "# Fishing Ships" / "# Whaling Ships" would wrap and push the table down in the narrow layout: there they read "# Ships".
       const hd = (HEADS[res] || {})[res === "food" ? state.food : state.src[res]];
       const plainName = ({ trade: "Carts", cog: "Cogs" })[kindOf(res)] || `${res.charAt(0).toUpperCase() + res.slice(1)} vils`;
       const own = hd ? `# <span class="hl">${hd}</span><span class="hs">${plainName}</span>` : "";
@@ -2740,18 +2447,18 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       th.innerHTML = own ? own
         : plural === "vils" ? `# ${plainName}`
         : `# ${plural.replace(/^(Fishing|Whaling) /, '<span class="wide-only">$1 </span>')}`;
-      th.dataset.label = hd ? `# ${hd}` : th.textContent;   // for labels: one form
+      th.dataset.label = hd ? `# ${hd}` : th.textContent;
     });
     const tot = { wood: 0, food: 0, gold: 0, stone: 0 };
     let builders = 0, popRate = 0;
     tbody.querySelectorAll("tr[data-name]").forEach((tr) => {
       const row = state.rows.find((x) => x.name === tr.dataset.name);
       const u = rowUnit(row);
-      tr.classList.toggle("idle", row.count === 0);   // # Buildings 0: the name greys out
+      tr.classList.toggle("idle", row.count === 0);
       const e = effective(u);
       const t = rowTime(u, e, row);
       if (!BLD(u)) popRate += (row.count * unitPop(u)) / t;
-      else if (!NO_BUILDERS(u)) builders += row.count * (row.custom ? row.builders : row.builders || 1);   // a custom building may have 0
+      else if (!NO_BUILDERS(u)) builders += row.count * (row.custom ? row.builders : row.builders || 1);
       RES.forEach((res) => {
         const c = e.c[res];
         const td = tr.querySelector("td." + res);
@@ -2763,8 +2470,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         td.title = `${v.toFixed(2)} ${unitWord(res)}`;
       });
     });
-    // Relics bring in part of the gold (and, for Burgundians, food) needed: fewer gatherers there.
-    // Before Farm Reseeding, which counts the farmers left.
     const relic = relicIncome(), covered = { wood: 0, food: 0, gold: 0, stone: 0 }, rs = relicsNow() === 1 ? "" : "s";
     ["gold", "food"].forEach((res) => {
       covered[res] = Math.min(tot[res], relic[res] / r[res]);
@@ -2775,14 +2480,11 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const each = relicIncome(1);
     $("relics").title = tip(ageOpen(RELIC_AGE) ? "" : `Available from ${AGES[RELIC_AGE - 1]}`, `Each relic brings in ${fmt(each.gold * 60)} gold` +
       (each.food ? ` and ${fmt(each.food * 60)} food` : "") + " per minute, taken off what the units need");
-    // Burgundian relics' food (civ or ally) in the Food box, while relics count (from Castle Age, not in Transition Eco).
     const rf = $("relic-food");
     rf.classList.toggle("gone", !each.food);
     rf.hidden = !each.food || !ageOpen(RELIC_AGE) || inTE();
     $("relic-food-out").textContent = perMin(relic.food * 60);
     rf.title = `${fmt(each.food * 60)} food per minute from each relic, taken off what the units need`;
-    // Wei soldiers with Tuntian (ticked, from Castle Age) produce food too: fewer food gatherers, before Farm Reseeding like relics.
-    // The row exists for Wei (not Full Tech Tree) and shows while Tuntian is in effect; not in Transition Eco.
     const soldierEach = activeFx().reduce((f, x) => (x.e.k === "soldierfood" ? f + x.e.perMin / 60 : f), 0);
     const soldierFood = state.soldiers * soldierEach, ss = state.soldiers === 1 ? "" : "s";
     const soldierCover = Math.min(tot.food, soldierFood / r.food);
@@ -2792,8 +2494,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     sb.hidden = !soldierEach;
     $("soldier-out").textContent = `${perMin(soldierFood * 60)}f/min`;
     sb.title = `Each soldier produces ${fmt(soldierEach * 60)} food per minute (Tuntian), taken off what the units need`;
-    // Gurjara livestock garrisoned in Mills produce food too: fewer food gatherers, likewise. The row exists for Gurjaras (not Full
-    // Tech Tree); not in Transition Eco.
     const garrisonFx = activeFx().find((x) => x.e.k === "garrison");
     const garrisonFood = garrisonFx ? garrisonFx.e.perMin(state.garrison) / 60 : 0;
     const garrisonCover = Math.min(tot.food, garrisonFood / r.food);
@@ -2805,8 +2505,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     reseed(r, tot);
     rebuildTraps(r, tot);
     houseBuilding(r, tot, popRate);
-    // Portuguese foragers (the food villagers, on berries) bring in part of the wood needed: fewer lumberjacks.
-    // Transition Eco shows the wood from the food villagers set there instead (updateTE() adds it).
     fitHeads();
     const forageW = forageEach(), foragers = forageW ? vils(tot.food) : 0, fs = foragers === 1 ? "" : "s";
     covered.wood = Math.min(tot.wood, (foragers * forageW) / r.wood);
@@ -2816,8 +2514,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     $("forage").hidden = !forageW;
     $("forage-out").textContent = perMin(shownForagers * forageW * 60);
     $("forage").title = `${fmt(forageW * 60)} wood per minute from each forager` + (inTE() ? "" : ", taken off what the units need");
-    // Shu lumberjacks bring in part of the food needed: fewer food gatherers. Farm Reseeding (above) counted the farmers
-    // before this, since its lumberjacks are among the ones counted here.
     const foodEach = woodFoodShare() * r.wood, lumberjacks = foodEach ? vils(tot.wood) : 0, ls = lumberjacks === 1 ? "" : "s";
     const foodCover = Math.min(tot.food, (lumberjacks * foodEach) / r.food);
     tot.food -= foodCover;
@@ -2828,7 +2524,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       $("wood-food-out").textContent = perMin((inTE() ? state.te.vils.wood : lumberjacks) * foodEach * 60);
       wf.title = `${fmt(foodEach * 60)} food per minute from each lumberjack` + (inTE() ? "" : ", taken off what the units need");
     }
-    // Varangian shepherds, hunters and fishers (villagers or Fishing Ships) bring in part of the gold needed: fewer gold miners.
     const goldEach = foodGoldShare() * r.food, fishers = goldEach ? vils(tot.food) : 0, who = FOOD_GOLD_WHO[state.food];
     const goldCover = Math.min(tot.gold, (fishers * goldEach) / r.gold);
     tot.gold -= goldCover;
@@ -2840,7 +2535,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       $("food-gold-who").innerHTML = who[0];
       fg.title = `${fmt(goldEach * 60)} gold per minute from each ${who[1]}` + (inTE() ? "" : ", taken off what the units need");
     }
-    // Polish stone miners bring in part of the gold needed: fewer gold miners. Shown while the Stone column is.
     const stoneGold = stoneGoldShare() * r.stone, miners = stoneGold ? vils(tot.stone) : 0, ms = miners === 1 ? "" : "s";
     const stoneCover = Math.min(tot.gold, (miners * stoneGold) / r.gold);
     tot.gold -= stoneCover;
@@ -2851,7 +2545,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       $("stone-gold-out").textContent = perMin((inTE() ? state.te.vils.stone : miners) * stoneGold * 60);
       sg.title = `${fmt(stoneGold * 60)} gold per minute from each stone miner` + (inTE() ? "" : ", taken off what the units need");
     }
-    // Vietnamese lumberjacks with Paper Money bring in part of the gold needed: fewer gold miners.
     const woodGold = woodGoldShare() * r.wood, jacks = woodGold ? vils(tot.wood) : 0, js = jacks === 1 ? "" : "s";
     const woodCover = Math.min(tot.gold, (jacks * woodGold) / r.gold);
     tot.gold -= woodCover;
@@ -2862,7 +2555,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       $("wood-gold-out").textContent = perMin((inTE() ? state.te.vils.wood : jacks) * woodGold * 60);
       wg.title = `${fmt(woodGold * 60)} gold per minute from each lumberjack (Paper Money)` + (inTE() ? "" : ", taken off what the units need");
     }
-    // Burgundian farmers with Burgundian Vineyards bring in part of the gold needed: fewer gold miners.
     const farmGold = farmGoldEach(), farmers = farmGold ? vils(tot.food) : 0, fms = farmers === 1 ? "" : "s";
     const farmCover = Math.min(tot.gold, (farmers * farmGold) / r.gold);
     tot.gold -= farmCover;
@@ -2873,8 +2565,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       $("farm-gold-out").textContent = perMin((inTE() ? state.te.vils.food : farmers) * farmGold * 60);
       fgl.title = `${fmt(farmGold * 60)} gold per minute from each farmer (Burgundian Vineyards)` + (inTE() ? "" : ", taken off what the units need");
     }
-    // Trade Carts or Cogs with a Bengali civ or ally bring in part of the food needed: fewer food gatherers. Counted after every gold
-    // line, so the carts are final; Farm Reseeding and the food gatherers' gold above counted the food gatherers before this.
     const tradeFood = tradeFoodShare() * r.gold, carts = tradeFood ? vils(tot.gold) : 0, [traders, trader] = KIND[tradeSrc()] || [];
     const tradeCover = Math.min(tot.food, (carts * tradeFood) / r.food);
     tot.food -= tradeCover;
@@ -2897,8 +2587,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (farmCover) cover.gold.push(`${farmers} farmer${fms} cover ${farmCover.toFixed(2)}`);
     if (foodCover) cover.food.push(`${lumberjacks} lumberjack${ls} cover ${foodCover.toFixed(2)}`);
     if (tradeCover) cover.food.push(`${carts} ${carts === 1 ? trader : traders} cover ${tradeCover.toFixed(2)}`);
-    // Totals round up the exact sum: villagers on one resource are shared between units.
-    // Only villagers count towards Villagers required (not Feitorias, livestock or Fishing Ships).
     let grand = 0, exact = 0;
     RES.forEach((res) => {
       const n = vils(tot[res]);
@@ -2908,7 +2596,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       td.title = `${tot[res].toFixed(2)} ${unitWord(res)}` + (cover[res].length ? `, after ${cover[res].join(" and ")}` : "");
       td.classList.toggle("zero", n === 0);
     });
-    // Builders are villagers too.
     grand += builders;
     exact += builders;
     $("tot-bld").textContent = hasBuildingRow() ? builders : "";
@@ -2917,12 +2604,10 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     $("tot-count").textContent = state.rows.reduce((s, r) => s + r.count, 0);
     fillRows();
     updateTE(r);
-    // The bonus line lists building bonuses by what reaches the table (inReach()); it may change height.
     const fxH = $("civ-fx").offsetHeight;
     renderCivFx();
     if ($("civ-fx").offsetHeight !== fxH) requestAnimationFrame(fit);
   }
-  // Wide layout: the technologies move up into the Post-Imp cell, the first unique tech's place level with Gold / Stone Shaft Mining.
   function placeTechs() {
     const techs = $("techs");
     techs.style.top = "";
@@ -2930,8 +2615,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const level = document.querySelector('[data-up="gsm"]').closest(".opt").getBoundingClientRect().top;
     techs.style.top = `${level - $("ut-list").getBoundingClientRect().top}px`;
   }
-  // Wide layout: Villagers required level with the Totals row (its number centred on the row). Returns how far it
-  // would cover the technologies above it (their places, shown or not), or 0.
   function placeGrand() {
     const box = document.querySelector(".grand-box");
     if (getComputedStyle(box).position !== "absolute") { box.style.top = ""; return 0; }
@@ -2940,7 +2623,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const techs = ["ut-list", "consc-opt", "shipwright-opt", "crane-opt"].map((id) => $(id).getBoundingClientRect().bottom);
     return Math.max(0, Math.max(...techs) + parseFloat(getComputedStyle($("techs")).rowGap) - box.getBoundingClientRect().top);
   }
-  // Wide layout: empty rows up to MIN_ROWS, and more while Villagers required would cover the technologies (long unique techs).
   function fillRows() {
     const used = tbody.querySelectorAll("tr[data-name], tr.reseed:not([hidden]), tr.houses:not([hidden])").length;
     const fillers = [...tbody.querySelectorAll("tr.filler")];
@@ -2949,9 +2631,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     while (show() > 0 && n < fillers.length) n++;
   }
 
-  /* ---------- Transition Eco ---------- */
-  // Age research takes 130 / 160 / 190 s, shortened by civ bonuses (Malay, Portuguese, Persian Town Centers),
-  // which count in the age being left.
   const AGE_UP = [130, 160, 190];
   function ageUp(target) {
     let t = AGE_UP[target - 1];
@@ -2965,10 +2644,8 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
     return { t, applied };
   }
-  const teCalc = {};   // per resource, from updateTE(): { per: gathered per villager, extra: from other gatherers, bonus: on reaching }
-  const sizeAmt = (el) => { el.previousElementSibling.textContent = el.value || " "; };   // the hidden copy that sets the field's width
-  // On reaching the age: what each resource's gatherers brought in during the research (whole units, rounded down),
-  // plus resources some civs receive on every age-up (Dravidians, Ethiopians).
+  const teCalc = {};
+  const sizeAmt = (el) => { el.previousElementSibling.textContent = el.value || " "; };
   function updateTE(r) {
     [1, 2, 3].forEach((a) => {
       const { t, applied } = ageUp(a), el = $("te-t" + a);
@@ -2976,40 +2653,34 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       el.classList.toggle("mod", applied.length > 0);
       el.title = applied.length ? `Base ${AGE_UP[a - 1]}s. ${applied.join("; ")}.` : "";
     });
-    // "After [] seconds": that time in Imperial Age, and no age reached, so no age-up resources.
     const after = teAfter(), target = state.te.research, t = after ? state.te.after : ageUp(target).t;
     $("te-label").textContent = after ? `After ${minSec(state.te.after)}` : `On reaching ${AGES[target]}`;
     const bonus = { wood: 0, food: 0, gold: 0, stone: 0 };
     if (!after) activeFx().forEach((x) => { if (x.e.k === "agebonus") RES.forEach((res) => { bonus[res] += x.e.res[res] || 0; }); });
-    const forage = state.te.vils.food * forageEach() * t;   // Portuguese foragers' wood
-    const foodGold = state.te.vils.food * foodGoldShare() * r.food * t;   // Varangian food gatherers' gold
-    const woodFood = state.te.vils.wood * woodFoodShare() * r.wood * t;   // Shu lumberjacks' food
-    const stoneGold = state.te.vils.stone * stoneGoldShare() * r.stone * t;   // Polish stone miners' gold
+    const forage = state.te.vils.food * forageEach() * t;
+    const foodGold = state.te.vils.food * foodGoldShare() * r.food * t;
+    const woodFood = state.te.vils.wood * woodFoodShare() * r.wood * t;
+    const stoneGold = state.te.vils.stone * stoneGoldShare() * r.stone * t;
     const extra = { wood: forage ? [forage, "foragers"] : null, gold: foodGold ? [foodGold, (FOOD_GOLD_WHO[state.food] || [])[2]] : null,
       food: woodFood ? [woodFood, "lumberjacks"] : null };
-    if (stoneGold) extra.gold = [stoneGold, "stone miners"];   // never with Varangian food gold (both civ bonuses)
-    // Paper Money (Imperial) counts only with "After [] seconds", the latest age being left being Castle.
+    if (stoneGold) extra.gold = [stoneGold, "stone miners"];
     const woodGold = state.te.vils.wood * woodGoldShare() * r.wood * t;
     if (woodGold) extra.gold = [woodGold, "lumberjacks"];
-    const farmGold = state.te.vils.food * farmGoldEach() * t;   // Burgundian Vineyards (Castle Age: Researching Imperial)
+    const farmGold = state.te.vils.food * farmGoldEach() * t;
     if (farmGold) extra.gold = [farmGold, "farmers"];
-    // Bengali Trade Cart / Cog food (team bonus, so it can come with Shu lumberjack food: both count).
     const tradeFood = state.te.vils.gold * tradeFoodShare() * r.gold * t, traders = (KIND[tradeSrc()] || [])[0];
     if (tradeFood) extra.food = extra.food ? [extra.food[0] + tradeFood, `${extra.food[1]} and ${traders}`] : [tradeFood, traders];
     RES.forEach((res) => {
       const amt = state.te.vils[res] * r[res] * t + (extra[res] ? extra[res][0] : 0), el = $("te-" + res);
-      // What one more of them adds, and what comes without them: setTeAmount() works the count out from a typed amount.
       teCalc[res] = { per: r[res] * t, extra: extra[res] ? extra[res][0] : 0, bonus: bonus[res] };
       el.dataset.shown = Math.floor(amt + 1e-9) + bonus[res];
-      if (document.activeElement !== el) { el.value = el.dataset.shown; sizeAmt(el); }   // not while it's being typed in
+      if (document.activeElement !== el) { el.value = el.dataset.shown; sizeAmt(el); }
       el.title = `${amt.toFixed(1)} ${res} gathered` + (extra[res] ? ` (${extra[res][0].toFixed(1)} by ${extra[res][1]})` : "") +
         (bonus[res] ? ` + ${bonus[res]} on reaching ${AGES[target]}` : "");
       const inp = document.querySelector(`#te-row .te-in[data-res="${res}"] input`);
       if (inp) inp.setAttribute("aria-label", $("head-" + res).dataset.label);
     });
   }
-  // "After [] seconds": the field shows the time (not while it's being typed in), the slider up to 900 s (at its end beyond that),
-  // shown only while After is picked.
   function syncTeAfter() {
     const field = $("te-after"), slide = $("te-after-slide");
     if (document.activeElement !== field) field.value = state.te.after;
@@ -3017,9 +2688,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     slide.value = Math.min(state.te.after, +slide.max);
     slide.hidden = state.te.research !== TE_AFTER;
   }
-  // The seconds field is as wide as its hidden copy: 2.15em, or more for a longer time.
   const sizeTeAfter = () => { const field = $("te-after"); field.nextElementSibling.textContent = field.value || " "; };
-  // "After [] seconds" label: 45s, 5m, 5m30s (user); from an hour on 1h, 1h5m, 98h14m53s. Parts that are 0 are left out (0 s reads 0s).
   const minSec = (s) => [[Math.floor(s / 3600), "h"], [Math.floor(s / 60) % 60, "m"], [s % 60, "s"]]
     .filter(([n]) => n).map(([n, u]) => n + u).join("") || "0s";
   function renderTE() {
@@ -3030,7 +2699,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
   }
 
-  /* ---------- table ---------- */
   function upgradeButton(i) {
     const up = upgradeOf(i);
     if (!up) return "";
@@ -3038,13 +2706,9 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const title = ok ? `Upgrade to ${displayNameOf(up.target, up.node)}` : up.why;
     return `<button type="button" class="upg" data-upgrade${ok ? "" : " disabled"} title="${esc(title)}">Upgrade</button>`;
   }
-  // Name to show for an upgrade target: the version itself when the entry covers several.
   const displayNameOf = (t, node) => (UNITS[t][10] ? node : displayName(t));
 
-  // Farm Reseeding: not in the dropdown; appears on its own while farms are the food source and farmers are needed.
-  // Khitans get Pasture Reseeding instead. It has no # Builders or # Buildings, so its name cell spans those columns and the checkboxes get room.
   function reseedRowHtml() {
-    // Greyed or fixed (Franks' free farm techs) like the settings boxes (syncSettings() does it there): this row is rebuilt after that runs.
     const box = (k) => { const ok = techOpen(k), free = ok && freeUp(k);
       return `<label class="opt${ok ? "" : " na"}${free ? " fixed" : ""}" title="${esc(techTitle(k))}"><input type="checkbox" data-up="${k}"${on(k) ? " checked" : ""}${ok && !free ? "" : " disabled"}> ${techName(k)}</label>`; };
     return `<tr class="reseed" id="reseed-row" hidden>
@@ -3055,7 +2719,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         </tr>`;
   }
 
-  // The Farm row's "One per Villager" box and the Fish Trap row's "One per Fishing Ship" box (the time follows that training time).
   function perWorkerHtml(u, row) {
     if (!WORKER[u[0]]) return "";
     const wt = fmtT(workerTime(u));
@@ -3063,7 +2726,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       `<input type="checkbox" data-pervil${row.perVil ? " checked" : ""}> ${wt}s</label></span>`;
   }
 
-  // Fish Trap Rebuilding: Farm Reseeding's counterpart while Fishing Ships work Fish Traps (the two never show together).
   function trapRowHtml() {
     return `<tr class="reseed" id="trap-row" hidden>
           <td class="rm"></td>
@@ -3072,7 +2734,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         </tr>`;
   }
 
-  // House Building: not in the dropdown either; appears on its own while units are trained (and the civ needs Houses).
   function houseRowHtml() {
     return `<tr class="houses" id="house-row" hidden>
           <td class="rm"></td>
@@ -3081,7 +2742,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         </tr>`;
   }
 
-  // Wide layout: the table is at least MIN_ROWS rows tall, empty ones (fillers) filling up; fillRows() shows the ones needed.
   const MIN_ROWS = 4;
   const FILLER = `<tr class="filler" aria-hidden="true" hidden><td class="rm"></td><th></th><td class="bld-cell"></td><td class="count">${stepperHtml("filler", 0, 0, 0, "")}</td>` +
     `<td class="num wood"></td><td class="num food"></td><td class="num gold"></td><td class="num stone"></td></tr>`;
@@ -3095,8 +2755,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   const countStepper = (row, safe) => `<div class="stepper" data-field="count">
             <button type="button" class="step" data-step="-1" aria-label="One building fewer for ${safe}"${row.count <= 0 ? " disabled" : ""}>−</button><input type="number" inputmode="numeric" min="0" max="99" step="1" value="${row.count}" aria-label="Buildings producing ${safe}"><button type="button" class="step" data-step="1" aria-label="One building more for ${safe}"${row.count >= 99 ? " disabled" : ""}>+</button>
           </div>`;
-  // A custom unit's row: number fields for its costs and training time where other rows show them as text; after them, what
-  // the numbers become with the bonuses that reach it (only when some do).
   function customRowHtml(row) {
     const safe = esc(row.name), c = row.custom, d = CUSTOM[customKind(row.name)];
     const field = (k, suffix, cls, label) => `<label class="cu-f${cls}"><input type="number" class="cu-in" data-cost="${k}" min="${k === "t" ? 1 : 0}" max="${d.max}" ` +
@@ -3110,11 +2768,8 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
           <td class="num wood"></td><td class="num food"></td><td class="num gold"></td><td class="num stone"></td>
         </tr>`;
   }
-  // After the name: the cost and time the numbers become, when bonuses or (for a building) builders change them.
   const customEff = (row) => { const u = rowUnit(row);
     return effective(u).applied.length || (BLD(u) && row.builders > 1) ? `→ ${costMeta(u, true, row)}` : ""; };
-  // Typing in a custom unit's field: kept within its limits (an empty or invalid field counts as the minimum; the field
-  // shows the kept number once left).
   function customInput(inp, done) {
     const tr = inp.closest("tr"), row = state.rows.find((r) => r.name === tr.dataset.name), k = inp.dataset.cost;
     const n = clampNum(inp.value, +inp.min, +inp.max, +inp.min);
@@ -3133,16 +2788,15 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     state.rows.push(added);
     renderRows();
     if (!fit()) {
-      state.rows.splice(state.rows.indexOf(added), 1);   // renderRows() may have moved it (units before buildings)
+      state.rows.splice(state.rows.indexOf(added), 1);
       renderRows();
       fit();
       return;
     }
     save();
-    rowEl(name).querySelector(".cu-in").focus();   // ready to type its costs
+    rowEl(name).querySelector(".cu-in").focus();
   }
 
-  // Units come first in the table, buildings after them, each in the order they were added (sort() is stable).
   const orderRows = () => state.rows.sort((a, b) => BLD(rowUnit(a)) - BLD(rowUnit(b)));
 
   function renderRows() {
@@ -3171,10 +2825,8 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     update();
   }
 
-  // The # Builders column shows with the Buildings box ticked or a building in the table.
   const showBuilders = () => state.bldOn || hasBuildingRow();
-  const showStone = () => inTE() || state.bldOn || hasBuildingRow();   // Transition Eco always shows Stone
-  // Header: the roomiest arrangement whose lines hold their items at natural width (see the hdr-* CSS).
+  const showStone = () => inTE() || state.bldOn || hasBuildingRow();
   function fitHeader() {
     const root = document.documentElement.classList, top = document.querySelector(".top");
     const tabs = top.querySelector(".tabs"), clear = top.querySelector(".clear-slot"), pickers = top.querySelector(".pickers");
@@ -3196,8 +2848,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     root.remove("hdr-measure", "hdr-b", "hdr-c", "hdr-d");
     modes[pick].forEach((c) => root.add(c));
   }
-  // Own column headings show where they neither overflow nor make the heading row taller than the plain forms would. The
-  // row keeps the plain forms' height either way, so switching a source never moves the table.
   function fitHeads() {
     const ths = RES.map((r) => $("head-" + r)).filter((th) => th.querySelector(".hl"));
     const head = table.tHead, row = head.rows[0];
@@ -3210,9 +2860,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
     row.style.height = base + "px";
   }
-  // The extra-income lines (Foragers, Shu lumberjack food, Burgundian relic food, Bengali Trade Cart food, Varangian food gold, Polish
-  // stone gold, Paper Money gold, Burgundian Vineyards gold): one line where the longest text they can show fits, else two, else two in smaller type, else
-  // three (see the CSS).
   function fitIncome() {
     const root = document.documentElement.classList;
     root.remove("inc-2l", "inc-small", "inc-3l");
@@ -3234,8 +2881,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       root.add(mode);
     }
   }
-  // Fishing Ship spot: radios right of the Food upgrades where they fit beside the upgrades Fishing Ship shows,
-  // otherwise (html.fish-dd) one dropdown option per spot. Measured with the radios in place.
   function fitFish() {
     const root = document.documentElement.classList, was = root.contains("fish-dd");
     root.remove("fish-dd");
@@ -3254,10 +2899,9 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     root.toggle("mid", w <= 1320 || (bld && w <= 1600));
     root.toggle("narrow", w <= 1150 || (bld && w <= 1320));
     fitHeader();
-    // Only buildings cost stone: without them the Stone column and its settings are hidden.
     root.toggle("no-stone", !showStone());
     root.toggle("tab-te", inTE());
-    root.toggle("church", churchCiv());   // Georgians' "Near Fortified Church" boxes
+    root.toggle("church", churchCiv());
     fitFish();
     fitIncome();
     document.querySelectorAll(".tab").forEach((b) => { const on = b.dataset.tab === state.tab; b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1; });
@@ -3266,16 +2910,13 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (head) head.textContent = state.bldOn ? "Unit/Building" : "Unit";
   }
 
-  // Shrink the table text until every row fits; the page never scrolls.
   function fit() {
     applyLayout();
     const w = window.innerWidth;
     let fs = w < 600 ? 13.5 : document.documentElement.classList.contains("narrow") ? 14 : 15;
     const techs = $("techs");
-    // On small screens the technologies sit in a strip above the table and take part of its height.
     const strip = () => getComputedStyle(techs).order === "-1";
     const room = () => wrap.clientHeight - (strip() ? techs.offsetHeight : 0);
-    // Wide layouts: Idle TC Time hangs below Villagers required (level with the Totals row), shown or not, so it must fit too.
     const idle = $("idle-tc");
     const idleFits = () => !idle.offsetParent ||
       idle.getBoundingClientRect().bottom <= techs.getBoundingClientRect().bottom - parseFloat(getComputedStyle(techs).paddingBottom) + 0.5;
@@ -3303,7 +2944,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       syncSteps(rowEl(name), existing.count);
       update();
     } else if (sameLineRows(i).length) {
-      // Only one entry per unit line: the new one takes the old one's place and count.
       const old = sameLineRows(i), keep = old[0];
       old.slice(1).forEach((r) => { keep.count = Math.min(99, keep.count + r.count); state.rows.splice(state.rows.indexOf(r), 1); });
       keep.name = name;
@@ -3314,7 +2954,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       state.rows.push(added);
       renderRows();
       if (!fit()) {
-        state.rows.splice(state.rows.indexOf(added), 1);   // renderRows() may have moved it (units before buildings)
+        state.rows.splice(state.rows.indexOf(added), 1);
         renderRows();
         fit();
         return;
@@ -3362,7 +3002,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     update();
     save();
   });
-  // A stepper's limits are its input's min and max (the builder limit depends on the building).
   const limits = (stepper) => { const inp = stepper.querySelector("input"); return [+inp.min, +inp.max]; };
   const fieldOf = (el) => el.closest(".stepper").dataset.field;
   function syncStepper(stepper, n) {
@@ -3400,7 +3039,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       if (field === "builders") refreshRowMeta(tr, row);
       update();
       save();
-      if (step.disabled) stepper.querySelector("input").focus();   // keep focus in the row at the limit
+      if (step.disabled) stepper.querySelector("input").focus();
       return;
     }
     const btn = e.target.closest("td.rm button");
@@ -3421,14 +3060,10 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     $("unit-search").focus();
   });
 
-  /* ---------- settings ---------- */
   const hasTech = (k) => state.civ === "Generic" || state.ftt || !(NO_TECH[k] || []).includes(state.civ);
   const techAge = (k) => ((!fttOn() && (TECH_AGE_CIV[state.civ] || {})[k]) || TECH_AGE[k]);
   const ageOpen = (age) => age <= curAge() + 1;
-  // A remembered tick only counts while the tech exists for the civ and the selected age allows it.
   const techOpen = (k) => hasTech(k) && ageOpen(techAge(k));
-  // A tech the civ gets for free (Bohemians' Mining Camp techs, not under Full Tech Tree): on from its age, and can't be unticked.
-  // The stored tick is left alone, so it's the user's own again for another civ.
   const freeUp = (k) => !fttOn() && fxOf(state.civ).some((e) => e.k === "freeups" && e.ups.indexOf(k) !== -1);
   const on = (k) => (state.up[k] || freeUp(k)) && techOpen(k);
   const techName = (k) => (pastures() && PASTURE_TECH[k] ? PASTURE_TECH[k][0] : TECH_NAME[k]);
@@ -3436,12 +3071,10 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     : !techOpen(k) ? `Available from ${AGES[techAge(k) - 1]}` : freeUp(k) ? `Free for ${state.civ}` : "",
     pastures() && PASTURE_TECH[k] ? PASTURE_TECH[k][1] : TECH_DESC[k]);
 
-  // Fill the source dropdowns with the standard source(s) plus every alternative income available right now.
-  // Wood, gold or stone with nothing to choose hides its dropdown (its space is kept).
   function renderSources() {
     RES.forEach((res) => {
       const o = nicheOf(res);
-      if (o && !nicheAvail(o)) {             // no longer possible: back to the standard source
+      if (o && !nicheAvail(o)) {
         if (res === "food") state.food = "farm"; else state.src[res] = "std";
       }
     });
@@ -3451,8 +3084,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const alts = (res) => NICHE[res].filter(nicheAvail);
     const altOpts = (res, cur) => alts(res).map((o) => opt(o.id, o.label, o.tip, cur)).join("");
     const fs = $("food-source");
-    // No room for the Fishing Ship radios: the ship is listed once per spot ("fship:deep"), labelled and titled after its radio
-    // (Trap greyed before Feudal Age, like its radio).
     const spots = document.documentElement.classList.contains("fish-dd")
       ? [...document.querySelectorAll("#fish-spot input")].map((r) => [`fship:${r.value}`, `Ship: ${r.parentElement.textContent.trim()}`,
         `Fishing Ship: ${spotTip(r.value)}`, r.value === "trap" && !ageOpen(TRAP_AGE)]) : null;
@@ -3468,14 +3099,11 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
   }
 
-  // Whether an eco upgrade's box shows in its resource's box: only while that resource's source is the one it speeds up.
-  // Pastoralism replaces Heavy Plow for Khitans but doesn't change how much farmers carry: it lives only in the Pasture Reseeding row,
-  // as Horse Collar and Crop Rotation always do.
   const UP_RES = { dba: "wood", bs: "wood", tms: "wood", gm: "gold", gsm: "gold", sm: "stone", ssm: "stone" };
   function laneShown(k) {
     if (k === "hp") return state.food === "farm" && !pastures();
     if (k === "wb" || k === "hc") return state.food === "farm";
-    if (k === "fl" || k === "gn") return state.food === "fship" || state.src.gold === "whale";   // Food box, or Gold box (Whaling)
+    if (k === "fl" || k === "gn") return state.food === "fship" || state.src.gold === "whale";
     if (k === "car") return !!tradeSrc();
     if (k === "clk" || k === "crv") return state.src.gold === "cog";
     const res = UP_RES[k];
@@ -3484,23 +3112,21 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
 
   function syncSettings() {
     renderSources();
-    UPS.forEach((k) => { if (!hasTech(k)) state.up[k] = false; });   // missing techs switch off
+    UPS.forEach((k) => { if (!hasTech(k)) state.up[k] = false; });
     document.querySelectorAll("[data-up]").forEach((cb) => {
-      const k = cb.dataset.up, ok = techOpen(k), free = ok && freeUp(k);   // free: ticked for good
+      const k = cb.dataset.up, ok = techOpen(k), free = ok && freeUp(k);
       cb.checked = on(k);
       cb.disabled = !ok || free;
       cb.closest(".opt").classList.toggle("na", !ok);
       cb.closest(".opt").classList.toggle("fixed", free);
       cb.closest(".opt").title = techTitle(k);
     });
-    // Upgrades show only for the source they speed up; otherwise they're hidden, keeping their space and ticks.
-    // With Fishing Ship, Fishing Lines and Gillnets take Heavy Plow's and Wheelbarrow's places, with the fishing spot beside them.
     const ups = $("food-ups"), ship = state.food === "fship";
     ["hp", "wb", "hc"].forEach((k) => { ups.querySelector(`[data-up="${k}"]`).closest(".opt").hidden = !laneShown(k); });
     ["fl", "gn"].forEach((k) => { ups.querySelector(`[data-up="${k}"]`).closest(".opt").hidden = !ship; });
     ups.classList.toggle("ship", ship);
     $("fish-spot").hidden = !ship;
-    document.querySelectorAll('input[name="fish"]').forEach((r) => {   // Trap greyed before Feudal Age
+    document.querySelectorAll('input[name="fish"]').forEach((r) => {
       const off = r.value === "trap" && !ageOpen(TRAP_AGE);
       r.checked = r.value === fishSpot();
       r.disabled = off;
@@ -3509,8 +3135,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
     const whale = state.src.gold === "whale";
     ["wood", "gold", "stone"].forEach((res) => { $(res + "-ups").hidden = state.src[res] !== "std" && !(res === "gold" && (tradeSrc() || whale)); });
-    // Trade Carts: Caravan and the Bump factor take Gold Mining's and Gold Shaft Mining's places. Trade Cogs: Caravan, Clinker
-    // Construction, and Carvel Hull on the third line. Whaling: Fishing Lines and Gillnets.
     const trade = tradeSrc(), goldOpt = (k) => $("gold-ups").querySelector(`[data-up="${k}"]`).closest(".opt");
     ["gm", "gsm"].forEach((k) => { goldOpt(k).hidden = !!trade || whale; });
     ["fl", "gn"].forEach((k) => { goldOpt(k).hidden = !whale; });
@@ -3518,7 +3142,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     ["clk", "crv"].forEach((k) => { goldOpt(k).hidden = trade !== "cog"; });
     $("trade-bump").closest(".opt").hidden = trade !== "trade";
     $("trade-bump").checked = state.tradeBump;
-    // Georgians' "Near Fortified Church": locked (tick kept) before Castle Age, hidden for a source that isn't villagers.
     const churchOpen = ageOpen(CHURCH_AGE);
     document.querySelectorAll("[data-church]").forEach((cb) => {
       const res = cb.dataset.church, l = cb.closest(".opt");
@@ -3528,18 +3151,17 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       l.hidden = !churchShown(res);
       l.title = tip(churchOpen ? "" : `Available from ${AGES[CHURCH_AGE - 1]}`, "Villagers near a Fortified Church work 10% faster");
     });
-    // Relics: shown as 0 and locked before Castle Age.
     const relicOpen = ageOpen(RELIC_AGE);
     relicBox.classList.toggle("na", !relicOpen);
     relicInput.disabled = !relicOpen;
     relicInput.value = relicsNow();
     syncStepper(relicBox.querySelector(".stepper"), relicsNow());
     if (!relicOpen) relicBox.querySelectorAll(".step").forEach((b) => { b.disabled = true; });
-    garrisonBox.querySelector("input").value = state.garrison;   // Gurjaras' garrisoned food (shown by update())
+    garrisonBox.querySelector("input").value = state.garrison;
     syncStepper(garrisonBox.querySelector(".stepper"), state.garrison);
-    soldierBox.querySelector("input").value = state.soldiers;   // Wei soldiers (shown by update() while Tuntian is in effect)
+    soldierBox.querySelector("input").value = state.soldiers;
     syncStepper(soldierBox.querySelector(".stepper"), state.soldiers);
-    tcBox.classList.toggle("gone", fttOn() || !fxOf(state.civ).some((e) => e.tc));   // Saxons' TCs/Castles
+    tcBox.classList.toggle("gone", fttOn() || !fxOf(state.civ).some((e) => e.tc));
     tcBox.querySelector("input").value = state.tcCastles;
     syncStepper(tcBox.querySelector(".stepper"), state.tcCastles);
     document.querySelectorAll('input[name="age"]').forEach((r) => { r.checked = +r.value === state.age; });
@@ -3552,7 +3174,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   }
   document.querySelector(".lanes").addEventListener("change", (e) => {
     const t = e.target;
-    if (t.dataset.rate) { t.value = state.customRate[t.dataset.rate]; return; }   // left: show the rate kept
+    if (t.dataset.rate) { t.value = state.customRate[t.dataset.rate]; return; }
     const picked = t.name === "food" ? "food" : t.dataset.src;
     if (picked && t.value === "custom" && state.customRate[picked] === undefined) state.customRate[picked] = clampRate(rates()[picked] * 60);
     if (t.dataset.up) { setUp(t.dataset.up, t.checked); if (!t.checked) setPostImp(false); }
@@ -3563,12 +3185,11 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     else if (t.id === "trade-bump") state.tradeBump = t.checked;
     else return;
     syncSettings();
-    const trap = rowEl("Fish Trap");   // its build time follows Fishing Lines / Gillnets (while they show)
+    const trap = rowEl("Fish Trap");
     if (trap) refreshRowMeta(trap, state.rows.find((r) => r.name === "Fish Trap"));
     update();
     save();
   });
-  // A custom income's rate, typed in its heading. While typing, an empty or invalid field keeps the last rate.
   document.querySelector(".lanes").addEventListener("input", (e) => {
     const t = e.target;
     if (!t.dataset.rate || !Number.isFinite(parseFloat(t.value))) return;
@@ -3576,8 +3197,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     update();
     save();
   });
-  // Counts in the resource boxes, by −/+ or typed: Relics (Gold box, 0–99), Wei soldiers (Food box, 0–999) and Gurjaras'
-  // garrisoned food (Food box, 0–9999, −/+ by 100). Any whole number in range can be typed.
   function counter(box, key, max, redraw = update, stepBy = 1) {
     const input = box.querySelector("input");
     const set = (v) => {
@@ -3591,7 +3210,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       if (!step) return;
       set(state[key] + step.dataset.step * stepBy);
       input.value = state[key];
-      if (step.disabled) input.focus();   // keep focus in the box at the limit
+      if (step.disabled) input.focus();
     });
     input.addEventListener("input", () => { const v = parseInt(input.value, 10); if (Number.isFinite(v)) set(v); });
     input.addEventListener("change", () => {
@@ -3606,7 +3225,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   counter(soldierBox, "soldiers", SOLDIERS_MAX);
   const garrisonBox = $("garrison");
   counter(garrisonBox, "garrison", GARRISON_MAX, update, GARRISON_STEP);
-  const tcBox = $("tc-castles");   // Saxons: changes unit costs, so the rows' cost text is redrawn too
+  const tcBox = $("tc-castles");
   counter(tcBox, "tcCastles", TC_MAX, renderRows);
   $("age").addEventListener("change", (e) => {
     if (e.target.name !== "age") return;
@@ -3622,10 +3241,10 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   });
 
   function fxText(e, x) {
-    if (e.p === undefined || e.label.indexOf("{p}") === -1) return fill(e.label, "") + source(x);   // no number to fill in
+    if (e.p === undefined || e.label.indexOf("{p}") === -1) return fill(e.label, "") + source(x);
     const p = pct(e);
     if (p) return fill(e.label, p) + source(x);
-    if (!Array.isArray(e.p)) return `<span class="off">${fill(e.label, p)}</span>`;   // e.g. Saxons holding no TC or Castle
+    if (!Array.isArray(e.p)) return `<span class="off">${fill(e.label, p)}</span>`;
     const first = e.p.findIndex((v) => v);
     return `<span class="off">${fill(e.label, e.p[first])} from ${AGES[first]}</span>`;
   }
@@ -3655,8 +3274,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   }
 
   function renderTechs() {
-    // One slot for the Castle Age unique tech and one for the Imperial Age one (no civ has two of an age). A naval one is hidden
-    // while Naval is off; the wide layout keeps its space.
     const utBox = (t) => {
       const open = ageOpen(t.age) && !state.ftt;
       const title = tip(state.ftt ? "Not available with Full Tech Tree" : open ? "" : `Available from ${AGES[t.age - 1]}`, t.desc);
@@ -3666,7 +3283,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const uts = civTechs().filter((t) => !inTE() || teTech(t));
     $("ut-list").innerHTML = [3, 4].map((a) => `<div class="ut-slot">${uts.filter((t) => t.age === a).map(utBox).join("")}</div>`).join("");
     $("ut-list").classList.toggle("none", !shownTechs().length);
-    if (!hasCrane()) state.crane = false;   // the civ can't research it: switch off, like the eco upgrades
+    if (!hasCrane()) state.crane = false;
     const cr = $("crane"), crOpen = craneOpen();
     cr.closest(".opt").hidden = !state.bldOn || inTE();
     cr.checked = state.crane && crOpen;
@@ -3674,7 +3291,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     cr.closest(".opt").classList.toggle("na", !crOpen);
     cr.closest(".opt").title = tip(!hasCrane() ? `${state.civ} can't research Treadmill Crane`
       : crOpen ? "" : `Available from ${AGES[CRANE_AGE - 1]}`, CRANE_DESC);
-    // Shipwright: like Treadmill Crane, shown (and in effect) only while Naval is ticked.
     if (!hasShipwright()) state.shipwright = false;
     const sw = $("shipwright"), swOpen = shipwrightOpen();
     sw.closest(".opt").hidden = !state.dock || inTE();
@@ -3683,7 +3299,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     sw.closest(".opt").classList.toggle("na", !swOpen);
     sw.closest(".opt").title = tip(!hasShipwright() ? `${state.civ} can't research Shipwright`
       : swOpen ? "" : `Available from ${AGES[SHIPWRIGHT_AGE - 1]}`, SHIPWRIGHT_DESC);
-    // Conscription: free for Vietnamese (ticked for good from Imperial Age), like the free eco techs.
     const c = $("consc"), open = ageOpen(CONSCRIPTION_AGE), cFree = open && freeUp("consc");
     c.checked = (state.consc || cFree) && open;
     c.disabled = !open || cFree;
@@ -3693,7 +3308,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   }
   $("techs").addEventListener("change", (e) => {
     const t = e.target;
-    if (t.classList.contains("postimp-box")) return;   // handled separately
+    if (t.classList.contains("postimp-box")) return;
     if (t.id === "consc") state.consc = t.checked;
     else if (t.id === "crane") state.crane = t.checked;
     else if (t.id === "shipwright") state.shipwright = t.checked;
@@ -3707,7 +3322,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     save();
   });
 
-  // Full Tech Tree is for a real civ (hidden for Generic, starts unticked); Generic gets Include Regional & Unique in its place.
   function syncFtt() {
     const gen = state.civ === "Generic";
     fttBox.closest("label").hidden = gen;
@@ -3729,7 +3343,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     save();
   }
 
-  /* ---------- searchable dropdowns ---------- */
   function combo(o) {
     const input = o.input, list = o.list;
     let items = [], active = -1;
@@ -3780,7 +3393,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       if (!o.multi) el.setAttribute("aria-selected", "true");
       input.setAttribute("aria-activedescendant", el.id);
       if (scroll) {
-        // Scroll only the list, never the page.
         let top = el.offsetTop, prev = el.previousElementSibling;
         while (prev && prev.getAttribute("role") === "presentation") { top = prev.offsetTop; prev = prev.previousElementSibling; }
         const bottom = el.offsetTop + el.offsetHeight;
@@ -3792,7 +3404,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       if (pos < 0 || pos >= items.length) return;
       const v = items[pos].value;
       if (!o.multi) { if (!items[pos].disabled) { o.choose(v); close(); } return; }
-      // Multi-select: toggle and keep the list open for more picks.
       if (items[pos].disabled) {
         input.value = "";
         render();
@@ -3803,7 +3414,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       render();
       setActive(Math.max(0, items.findIndex((it) => it.value === v)), true);
     }
-    // The arrow button: opens or closes the list. It never takes focus, so the box keeps it (and typing still works).
     const toggle = document.createElement("button");
     toggle.type = "button"; toggle.className = "combo-toggle"; toggle.tabIndex = -1; toggle.setAttribute("aria-hidden", "true");
     list.after(toggle);
@@ -3815,7 +3425,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       open();
     });
     input.addEventListener("input", open);
-    // Reopening a picker that still has focus: get the box ready for a fresh search.
     input.addEventListener("click", () => { if (!isOpen()) { if (o.prime) o.prime(); open(); } });
     input.addEventListener("keydown", (e) => {
       switch (e.key) {
@@ -3859,11 +3468,10 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
     document.addEventListener("pointerdown", (e) => {
       if (!isOpen() || input.parentNode.contains(e.target)) return;
-      if (o.keepOpen && e.target.closest(o.keepOpen)) return;   // controls that only filter the list
+      if (o.keepOpen && e.target.closest(o.keepOpen)) return;
       close();
       if (o.cancel) o.cancel();
     });
-    // Clicking those controls must not take focus from the search box either.
     if (o.keepOpen) document.querySelectorAll(o.keepOpen).forEach((el) => el.addEventListener("mousedown", (e) => e.preventDefault()));
     input.addEventListener("blur", () => setTimeout(() => {
       const el = document.activeElement;
@@ -3874,7 +3482,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     return { isOpen, open, close, render };
   }
 
-  // Armenians and Georgians have no Monastery: their Monks and Warrior Priests come from the Fortified Church.
   const groupName = (g) => (g === "Monastery" && (state.civ === "Armenians" || state.civ === "Georgians") ? "Fortified Church" : g);
   const unitInput = $("unit-search");
   const unitCombo = combo({
@@ -3884,8 +3491,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
       const tokens = q.split(" ").filter(Boolean);
       const inTable = new Set(state.rows.map((r) => r.name));
       const out = [];
-      // "Custom Unit..." first under Units (and "Custom Building..." first under Buildings), with nothing typed or while
-      // the text matches it.
       const customItem = (kind) => {
         const d = CUSTOM[kind], n = customRows(kind).length;
         if (!tokens.every((t) => norm(d.prefix).includes(t))) return null;
@@ -3900,9 +3505,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
         if (pv && pv.hidden.has(i)) return;
         const s = (pv && pv.search.get(i)) || s0;
         if (!available(i) || (!state.dock && isDock(u)) || (!state.bldOn && BLD(u)) || !tokens.every((t) => s.includes(t))) return;
-        // Generic lists regional and unique entries only with Include Regional & Unique ticked.
         if (state.civ === "Generic" && !state.regional && REGIONAL_OR_UNIQUE(u)) return;
-        // When the query only matches a member (e.g. "champion"), show which one.
         let hint = "";
         const shown = displayName(i);
         const names = (pv && pv.search.get(i) ? LINE_NODES[LINE_OF[members(u)[0]]] : members(u)).filter(uniqueShown);
@@ -3910,7 +3513,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
           const m = names.find((x) => tokens.every((t) => norm(x).includes(t)));
           if (m && m !== shown) hint = `<span class="alias">${esc(m)}</span>`;
         }
-        // Under its own building heading the "(Donjon)"-style suffix is redundant.
         const suffix = ` (${u[1]})`;
         const label = shown.endsWith(suffix) ? shown.slice(0, -suffix.length) : shown;
         out.push({ value: i, label, names, group: groupName(u[1]), parent: parentOf(u), title: u[10] ? u[10].join(", ") : "",
@@ -3938,8 +3540,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   });
 
   const civInput = $("civ-search");
-  // Select the civ name for a fresh search, after the click has placed the caret. Only while the box still
-  // has focus: select() would otherwise pull focus back from another picker the user just clicked.
   const selectCivText = () => setTimeout(() => { if (document.activeElement === civInput) civInput.select(); }, 0);
   const civCombo = combo({
     input: civInput, list: $("civ-list"), id: "copt",
@@ -3964,7 +3564,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     prime: selectCivText,
   });
   civInput.addEventListener("focus", () => civInput.select());
-  // Clicking into the box while it still shows the current civ selects it, so typing starts a new search.
   civInput.addEventListener("click", () => { if (civInput.value === state.civ) selectCivText(); });
 
   const allyInput = $("ally-search");
@@ -3974,7 +3573,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     else if (state.allies.indexOf(c) !== -1) state.allies = state.allies.filter((x) => x !== c);
     else if (state.allies.length < MAX_ALLIES) state.allies = state.allies.concat(c);
     allyInput.title = allySummary();
-    syncSettings();   // an ally can unlock an income or change a tech
+    syncSettings();
     renderCivFx();
     renderRows();
     fit();
@@ -4018,13 +3617,12 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (unitCombo.isOpen()) { unitCombo.render(); unitInput.focus({ preventScroll: true }); }
   });
 
-  // Include Regional & Unique (Generic only): a dropdown filter, like Naval.
   const ruBox = $("include-ru");
   ruBox.addEventListener("change", () => {
     state.regional = ruBox.checked;
-    invalidateView();   // the Post-Imp search text follows it
-    syncSettings();     // so do Generic's alternative incomes (a chosen one goes back to the standard source)
-    renderRows();       // and some entry names (Elite/Imperial Skirmisher)
+    invalidateView();
+    syncSettings();
+    renderRows();
     save();
     if (unitCombo.isOpen()) { unitCombo.render(); unitInput.focus({ preventScroll: true }); }
   });
@@ -4039,7 +3637,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (unitCombo.isOpen()) { unitCombo.render(); unitInput.focus({ preventScroll: true }); }
   });
 
-  // Naval: Dock units and buildings in the dropdown, and naval unique techs (Circumnavigation).
   const dockBox = $("include-dock");
   dockBox.addEventListener("change", () => {
     state.dock = dockBox.checked;
@@ -4050,37 +3647,31 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (unitCombo.isOpen()) { unitCombo.render(); unitInput.focus({ preventScroll: true }); }
   });
 
-  // Farm Reseeding / House Building: opt out of either row (and its lumberjacks). Preferences, like Naval: Clear All leaves them.
   const reseedBox = $("use-reseed"), housesBox = $("use-houses");
   reseedBox.addEventListener("change", () => { state.useReseed = reseedBox.checked; update(); save(); });
   housesBox.addEventListener("change", () => { state.useHouses = housesBox.checked; update(); save(); });
 
-  // Idle TC Time (wide layouts): a villager missing for every 25 s the Town Center stood idle, up to 10:00. Shown apart from
-  // Villagers required, not added to it (user).
   const idleBox = $("idle-on"), idleSlider = $("idle-t"), idleField = $("idle-t-out");
   const mmss = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   function syncIdle() {
     const n = Math.floor(state.idleT / IDLE_VIL_T);
     idleBox.checked = state.idleTc;
     $("idle-out").hidden = !state.idleTc;
-    $("idle-out").classList.toggle("idle-none", !state.idleT);   // green: no idle time
-    $("idle-out").classList.toggle("idle-some", !!state.idleT && !n);   // neutral: idle, no villager missing yet
-    idleSlider.value = Math.min(state.idleT, +idleSlider.max);   // past 10:00 (typed in): at its end
-    if (document.activeElement !== idleField) idleField.value = mmss(state.idleT);   // not while it's being typed in
+    $("idle-out").classList.toggle("idle-none", !state.idleT);
+    $("idle-out").classList.toggle("idle-some", !!state.idleT && !n);
+    idleSlider.value = Math.min(state.idleT, +idleSlider.max);
+    if (document.activeElement !== idleField) idleField.value = mmss(state.idleT);
     $("vils-missing").textContent = n;
     $("vils-missing").title = `${mmss(state.idleT)} idle: ${n} × ${IDLE_VIL_T}s of Villager training`;
   }
-  // A typed time: minutes:seconds ("12:30", "2:05") or seconds ("90"), up to 59:59; anything else is null.
   function parseIdle(text) {
     const m = /^\s*(?:(\d{1,2}):([0-5]?\d)|(\d{1,4}))\s*$/.exec(text);
     if (!m) return null;
     return Math.min(IDLE_MAX, m[3] !== undefined ? +m[3] : +m[1] * 60 + +m[2]);
   }
   const setIdleT = (s) => { state.idleT = Math.max(0, Math.min(IDLE_MAX, s)); syncIdle(); save(); };
-  // Unticking forgets the time (user): ticked again, it starts at 00:00.
   idleBox.addEventListener("change", () => { state.idleTc = idleBox.checked; if (!state.idleTc) state.idleT = 0; syncIdle(); save(); });
   idleSlider.addEventListener("input", () => { setIdleT(parseInt(idleSlider.value, 10) || 0); });
-  // While typing, an incomplete or invalid time keeps the last one; leaving the field (or Enter) writes it out as mm:ss.
   idleField.addEventListener("input", () => { const s = parseIdle(idleField.value); if (s !== null) setIdleT(s); });
   idleField.addEventListener("change", () => { const s = parseIdle(idleField.value); if (s !== null) setIdleT(s); idleField.value = mmss(state.idleT); });
   idleField.addEventListener("keydown", (e) => { if (e.key === "Enter") idleField.blur(); });
@@ -4095,8 +3686,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
   });
 
-  /* ---------- tabs and Transition Eco inputs ---------- */
-  // Switching views changes what the age means (see curAge), so everything is refreshed.
   function setTab(t) {
     if (state.tab === t) return;
     state.tab = t;
@@ -4122,24 +3711,20 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     update();
     save();
   }
-  // "After [] seconds": typing a time picks that radio. An empty or invalid field keeps the last time until it's left.
   const afterIn = $("te-after");
   function setTeAfter(v) {
     state.te.after = Math.max(0, Math.min(TE_AFTER_MAX, v));
-    if (state.te.research !== TE_AFTER) { state.te.research = TE_AFTER; refreshAll(); return; }   // Imperial Age: new techs, incomes and bonuses
+    if (state.te.research !== TE_AFTER) { state.te.research = TE_AFTER; refreshAll(); return; }
     syncTeAfter();
     update();
     save();
   }
   $("te-after-slide").addEventListener("input", (e) => { setTeAfter(parseInt(e.target.value, 10) || 0); });
 
-  // The amounts can be typed in too (user): that resource's count becomes the fewest that gather at least as much (up to TE_MAX),
-  // the others' counts staying. While typing, anything but a whole number changes nothing; leaving the field (or Enter) shows
-  // what that many gather.
   function setTeAmount(field) {
     sizeAmt(field);
     const res = field.dataset.res, c = teCalc[res], text = field.value.replace(/[\s,]/g, "");
-    if (!/^\d+$/.test(text) || !c || !(c.per > 0)) return;   // nothing gathered per villager (0 s): no count reaches it
+    if (!/^\d+$/.test(text) || !c || !(c.per > 0)) return;
     const n = Math.max(0, Math.min(TE_MAX, Math.ceil((+text - c.bonus - c.extra - 1e-9) / c.per)));
     const td = teRow.querySelector(`.te-in[data-res="${res}"]`);
     td.querySelector("input").value = n;
@@ -4157,7 +3742,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   teBox.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.classList.contains("te-amt")) e.target.blur(); });
   teRow.addEventListener("change", (e) => {
     const t = e.target;
-    if (t.name === "te-age") { state.te.research = +t.value; refreshAll(); return; }   // a new age: new techs, incomes and bonuses
+    if (t.name === "te-age") { state.te.research = +t.value; refreshAll(); return; }
     if (t === afterIn) {
       const v = parseInt(t.value, 10);
       if (Number.isFinite(v)) setTeAfter(v);
@@ -4182,10 +3767,9 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     const td = step.closest("td"), input = td.querySelector("input");
     setTeVils(td, state.te.vils[td.dataset.res] + +step.dataset.step);
     input.value = state.te.vils[td.dataset.res];
-    if (step.disabled) input.focus();   // keep focus in the control at the limit
+    if (step.disabled) input.focus();
   });
 
-  /* ---------- Clear and Post-Imp ---------- */
   function refreshAll() {
     civInput.value = state.civ;
     allyInput.value = allySummary();
@@ -4209,17 +3793,14 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
   $("reset").addEventListener("click", () => {
     unitCombo.close(); allyCombo.close(); civCombo.close();
     unitInput.value = "";
-    // Naval, Buildings, Full Tech Tree and Include Regional & Unique are view options: Clear All leaves them as they are.
-    // (Full Tech Tree hides with Generic and starts unticked for the next civ, as usual.)
     Object.assign(state, { rows: [], civ: "Generic", allies: [], age: 3, food: "farm", fish: "deep", customRate: {}, ftt: false, consc: false, crane: false, shipwright: false, uts: [], postimp: false,
       src: { wood: "std", gold: "std", stone: "std" }, tradeBump: false, relics: 0, soldiers: 0, garrison: GARRISON_START, tcCastles: 1, church: { wood: false, food: false, gold: false, stone: false },
-      idleTc: false, idleT: 0,   // Idle TC Time is reset too (user)
+      idleTc: false, idleT: 0,
       te: { research: 1, after: TE_AFTER_SECS, vils: { wood: 0, food: 0, gold: 0, stone: 0 } } });
     UPS.forEach((k) => { state.up[k] = false; });
     refreshAll();
   });
 
-  // Clear Civs: Generic, no allies. Everything else stays.
   $("clear-civs").addEventListener("click", () => {
     allyCombo.close(); civCombo.close();
     state.allies = [];
@@ -4230,7 +3811,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (unitCombo.isOpen()) unitCombo.render();
   });
 
-  // Clear Techs: untick every technology (which also ends Post-Imp).
   document.querySelectorAll(".clear-techs").forEach((btn) => btn.addEventListener("click", () => {
     UPS.forEach((k) => { state.up[k] = false; });
     state.uts = [];
@@ -4242,7 +3822,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (unitCombo.isOpen()) unitCombo.render();
   }));
 
-  // Post-Imp: Imperial Age, every available technology on, and only the latest unit versions in the dropdown.
   function postImpTechs() {
     state.age = 3;
     UPS.forEach((k) => { if (hasTech(k)) state.up[k] = true; });
@@ -4250,7 +3829,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     state.consc = true;
     if (hasCrane()) state.crane = true;
     if (hasShipwright()) state.shipwright = true;
-    // Every row moves up its line as far as the civ can reach (user), e.g. Archer to Crossbowman / Arbalester.
     state.rows.slice().forEach((row) => { while (state.rows.indexOf(row) !== -1 && upgradeRow(row)); });
   }
   function setPostImp(on) {
@@ -4266,9 +3844,7 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     if (unitCombo.isOpen()) { unitCombo.render(); unitInput.focus({ preventScroll: true }); }
   }));
 
-  /* ---------- start ---------- */
   load();
-  // Older saves may hold two entries of one line: keep the first and add the other's count to it.
   state.rows.slice().forEach((r) => {
     if (r.custom || state.rows.indexOf(r) === -1) return;
     sameLineRows(byName.get(r.name)).forEach((o) => {
@@ -4277,7 +3853,6 @@ const EDGES = [["Arambai", "Elite Arambai"], ["Archer", "Crossbowman"], ["Armore
     });
   });
   if (state.civ === "Generic") state.ftt = false;
-  // A saved Post-Imp: everything is ticked anyway (unticking ends it), and older saves may hold rows not yet upgraded.
   if (state.postimp) postImpTechs();
   civInput.value = state.civ;
   allyInput.value = allySummary();
